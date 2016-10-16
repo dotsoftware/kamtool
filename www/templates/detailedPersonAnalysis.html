@@ -1,0 +1,48 @@
+<ion-view view-title="Kundenansicht">
+  <ion-content style="background-color:#eeeeee">
+    <div class="card">
+        <div class="item cardHeader">Profil von <strong>{{person}}</strong></div>
+        <div class="item item-body">
+            <div>
+              <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels">
+              </canvas>
+            </div>
+        </div>
+        <!--<div class="item item-divider">Links einbauen</div>-->
+    </div>
+
+    <div class="card" ng-if="myselfNotSet">
+      <div class="item cardHeader">Keine weiteren Karten verfügbar</div>
+      <div class="item item-body">
+        Füge dein Profil hinzu, um weitere Informationen zu erhalten.
+      </div>
+    </div>
+
+    <div class="card" ng-if="myselfExists">
+      <div class="item cardHeader">Gegenüberstellung</div>
+      <div class="item item-body">
+          <div ng-if="myselfExists">
+            <canvas id="radar" class="chart chart-radar" chart-colours="['Red', 'Yellow']" auto-legend
+              chart-data="data_spidernet" chart-labels="labels">
+          </div>
+      </div>
+    </div>
+
+
+    <div class="card" ng-if="myselfExists">
+        <div class="item cardHeader">Profil von <strong>mir</strong></div>
+        <div class="item item-body">
+            <div ng-if="myselfExists">
+              <canvas id="pie" class="chart chart-pie" chart-data="data_self" chart-labels="labels">
+              </canvas>
+            </div>
+
+            <div ng-if="myselfNotSet">
+              Noch keine eigene Bewertung vorhanden.
+            </div>
+        </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,35 @@
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-positive">
+            <ion-nav-back-button></ion-nav-back-button>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left" id="menuContent">
+        <ion-content padding="false" style="top:0px !important;" class="side-menu-left ">
+            <div class="spacer" style="width: 251.2px; height: 30px;"></div>
+            <ion-list>
+                <ion-item class="item-avatar">
+                    <h2>Eingeloggt als</h2>
+                    <img src="{{PROFILE_PIC}}" />
+                    <p>{{KAM_NAME}}</p>
+                </ion-item>
+                <ion-item class="item-icon-left dark" ui-sref="menu.todos" menu-close="">
+                    <i class="icon ion-ios-lightbulb-outline"></i>Aufgabenverwaltung</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.transakationsanalyse" menu-close="">
+                    <i class="icon ion-ios-person"></i>Transaktionsanalyse</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.meineDienststellen" menu-close="">
+                    <i class="icon ion-briefcase"></i>Meine Dienststellen</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.globaleNachrichten" menu-close="">
+                    <i class="icon ion-social-rss"></i>Globale Nachrichten</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.lPK" menu-close="">
+                    <i class="icon ion-ios-paper"></i>LPK</ion-item>
+                <ion-item class="item-icon-left" ng-click="logout()" menu-close="">
+                  <i class="icon ion-log-out"></i>Ausloggen</ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>
