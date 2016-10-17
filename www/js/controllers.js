@@ -513,10 +513,10 @@ function ($scope, $stateParams, $firebaseArray, $state) {
 
 }])
 
-.controller('globaleNachrichtenCtrl', ['$scope', '$stateParams', '$filter', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('globaleNachrichtenCtrl', ['$scope', '$stateParams', '$filter', '$ionicScrollDelegate', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $filter, AuthFactory) {
+function ($scope, $stateParams, $filter, $ionicScrollDelegate, AuthFactory) {
 
   $scope.msg = {};
   var uid=firebase.auth().currentUser.uid;
@@ -527,13 +527,12 @@ function ($scope, $stateParams, $filter, AuthFactory) {
 
     console.log(news);
     $scope.messages = news;
+    $ionicScrollDelegate.scrollBottom();
   }
 
   loadMessages();
 
   $scope.addMsg = function() {
-
-    console.log("bin in add");
     if($scope.msg.add.length > 0) {
       var postData = {
         from: firebase.auth().currentUser.displayName,
@@ -548,6 +547,7 @@ function ($scope, $stateParams, $filter, AuthFactory) {
 
       firebase.database().ref().update(updates);
       $scope.msg.add = '';
+      $ionicScrollDelegate.scrollBottom();
 
     }
   }
