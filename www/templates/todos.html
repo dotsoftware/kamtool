@@ -15,27 +15,12 @@
           <button ng-click="addTodo()" class="button button-balanced  button-block">Hinzufügen</button>
       </form>
 
-      <!--<div class="card list" ng-repeat="todo in todos">
-         <div class="item item-divider">
-            Fällig: {{todo.todoDate}}
-         </div>
-
-         <div class="item item-text-wrap">
-            {{todo.todo}}
-         </div>
-
-         <div class="item item-divider">
-            <button class="button button-clear button-icon button-assertive ion-trash-a" ng-click="deleteTodo(todo)"></button>
-         </div>
-      </div> -->
-
       <ion-list show-delete="false" can-swipe="true">
-          <ion-item href="#" collection-repeat="todo in todos">
-              {{todo.todo}}<br/>
-              {{todo.todoDate}}
-              <ion-option-button class="button-light icon ion-heart"></ion-option-button>
-              <ion-option-button class="button-light icon ion-email"></ion-option-button>
-              <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
+          <ion-item ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" class="item-remove-animate" collection-repeat="item in todos" item="item">
+              {{item.todo}}<br/>
+              {{item.todoDate}}
+              <ion-option-button ng-click="done(item)" class="button-light icon ion-email"></ion-option-button>
+              <ion-option-button ng-click="deleteTodo(item)" class="button-assertive icon ion-trash-a"></ion-option-button>
           </ion-item>
       </ion-list>
     </ion-content>

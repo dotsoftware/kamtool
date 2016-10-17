@@ -6,8 +6,6 @@ angular.module('app.controllers', [])
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, AuthFactory) {
 
-  var dbRef = firebase.database().ref('todos');
-  var path = dbRef.root.toString();
   var uid =  firebase.auth().currentUser.uid;
 
   var todoTasks;
@@ -24,6 +22,7 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
   }
 
   $scope.deleteTodo = function(item) {
+    console.log("bin in delete");
     todoTasks.$remove(item).then(function(ref) {
       // ref.key() === item.$id; // true
     });
@@ -48,7 +47,7 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
 
 }])
 
-.controller('transakationsanalyseCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('transaktionsanalyseCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, AuthFactory) {
@@ -105,7 +104,11 @@ function ($scope, $stateParams) {
     var myselfRef = firebase.database().ref().child("person_analysis/" + uid + "/ICH");
     var myself = $firebaseArray(myselfRef);
 
+    console.log("ich selbst:", myself);
+
     myself.$loaded().then(function() {
+      if(myself.length < 0) return;
+
       console.log(myself);
 
       $scope.data_self = [
@@ -167,7 +170,8 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams, $state, AuthFactory) {
   var user= firebase.auth().currentUser;
 
-  $scope.KAM_NAME = firebase.auth().currentUser.displayName;
+  if(firebase.auth().currentUser != undefined)  $scope.KAM_NAME = firebase.auth().currentUser.displayName;
+  else $scope.KAM_NAME = "User nicht gesetzt";
 
   console.log(user);
 
@@ -189,9 +193,11 @@ function ($scope, $stateParams, $state, AuthFactory) {
 
   $scope.logout = function() {
 
+    $state.go('kAMToolsAnmeldung');
+
     firebase.auth().signOut().then(function() {
       console.log("Erfolgreich ausgeloggt");
-      $state.go('kAMToolsAnmeldung');
+
     }, function(error) {
       console.log(error);
     });
@@ -215,61 +221,55 @@ function ($scope, $stateParams) {
 
    $scope.loginData = {};
 
-  $timeout(function() {
-     if(authData.currentUser != null) {
-       $state.go('menu.todos');
-     }
-   }, 1500);
+   firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      $state.go('menu.todos');
+    } else {
+      // No user is signed in.
+    }
+  });
 
    $scope.login = function(how) {
      console.log(how);
 
-     if (authData.currentUser == null) { // nicht eingeloggt
+   if(how == "credentials") {
+      console.log($scope.loginData.email + "-" + $scope.loginData.password);
 
-       if(how == "credentials") {
-          console.log($scope.loginData.email + "-" + $scope.loginData.password);
+     firebase.auth().signInWithEmailAndPassword($scope.loginData.email, $scope.loginData.password).catch(function(error) {
+       var alertPopup = $ionicPopup.alert({
+           title: 'Fehler',
+           template: error
+       });
+     });
+   }
+   else {
 
-         firebase.auth().signInWithEmailAndPassword($scope.loginData.email, $scope.loginData.password).catch(function(error) {
-           var alertPopup = $ionicPopup.alert({
-               title: 'Fehler',
-               template: error
-           });
-         });
+     if(how == "google") {
+       console.log("mit google");
+       provider = new firebase.auth.GoogleAuthProvider();
+     }
+     else if(how == "facebook") {
+       provider = new firebase.auth.FacebookAuthProvider();
+     }
+     else if(how == "github") {
+       provider = new firebase.auth.GithubAuthProvider();
+     }
+     else if(how =="twitter") {
+       provider = new firebase.auth.TwitterAuthProvider();
+     }
 
-         // alles ersetzen duch onAuth
-         
-         $state.go('menu.todos');
+     AuthFactory.socialLogin(provider).then(function(result) {
+       console.log("erfolgreich eingeloggt!");
 
-       }
-       else {
-         if(how == "google") {
-           console.log("mit google");
-           provider = new firebase.auth.GoogleAuthProvider();
-         }
-         else if(how == "facebook") {
-           provider = new firebase.auth.FacebookAuthProvider();
-         }
-         else if(how == "github") {
-           provider = new firebase.auth.GithubAuthProvider();
-         }
+       AuthFactory.setUserInfos(result.user);
+       AuthFactory.setUserName(firebase.auth().currentUser.providerData[0].displayName);
+       AuthFactory.setUserID(firebase.auth().currentUser.uid);
 
-         AuthFactory.socialLogin(provider).then(function(result) {
-           console.log("erfolgreich eingeloggt!");
+       $state.go('menu.todos');
+      });
 
-           AuthFactory.setUserInfos(result.user);
-           AuthFactory.setUserName(firebase.auth().currentUser.providerData[0].displayName);
-           AuthFactory.setUserID(firebase.auth().currentUser.uid);
-
-          $state.go('menu.todos');
-          });
-        }
-      }
-      else  { // ist eingeloggt
-         console.log("kein login erforderlich, token ist: " + firebase.auth().currentUser.uid);
-         $state.go('menu.todos');
-       }
     }
-
+  }
 
 }])
 

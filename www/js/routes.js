@@ -23,7 +23,7 @@ angular.module('app.routes', [])
     views: {
       'menuContent': {
         templateUrl: 'templates/transakationsanalyse.html',
-        controller: 'transakationsanalyseCtrl'
+        controller: 'transaktionsanalyseCtrl'
       }
     }
   })
