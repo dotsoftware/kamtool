@@ -21,10 +21,20 @@
           </ion-option-button>
     </ion-list>-->
 
-    <div class="list animate-fade-slide-in-right" >
+    <!--<div class="card list" collection-repeat="item in customers">
+        <div class="item item-divider">
+          <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" collection-repeat="item in customers" class="item item-content">{{item.personName}}</a>
+              <h2>{{item.personName}}</h2>
+              <p>Bewertung aufrufen</p>
+              <i class="icon ion-chatbubble muted"></i>
+          </a>
+        </div>
+      </div>-->
+
+    <div class="list card" >
       <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" collection-repeat="item in customers" class="item item-content">{{item.personName}}</a>
     </div>
-    <div style="text-align:center" ng-hide="personen.length">Noch keine Bewertungen.</div>
+    <div style="text-align:center" ng-hide="personen.length < 1">Noch keine Bewertungen.</div>
 
   </ion-content>
 </ion-view>

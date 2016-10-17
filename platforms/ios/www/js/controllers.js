@@ -19,6 +19,7 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
 
   function getTodoList() {
     todoTasks = AuthFactory.readData('todos/' + uid);
+    console.log(todoTasks);
     $scope.todos = todoTasks;
   }
 
@@ -160,14 +161,41 @@ function ($scope, $stateParams) {
   }
 })
 
-.controller('menuCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('menuCtrl', ['$scope', '$stateParams', '$state', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, AuthFactory) {
+function ($scope, $stateParams, $state, AuthFactory) {
+  var user= firebase.auth().currentUser;
 
-  $scope.KAM_NAME = firebase.auth().currentUser.providerData[0].displayName;
-  console.log(firebase.auth().currentUser.providerData[0].displayName);
+  $scope.KAM_NAME = firebase.auth().currentUser.displayName;
 
+  console.log(user);
+
+  if (user != null) {
+    user.providerData.forEach(function (profile) {
+
+      console.log(profile);
+      console.log("Sign-in provider: "+profile.providerId);
+      console.log("  Provider-specific UID: "+profile.uid);
+      console.log("  Name: "+ profile.displayName);
+      console.log("  Email: "+profile.email);
+      console.log("  Photo URL: "+profile.photoURL);
+
+      $scope.PROFILE_PIC = profile.photoURL;
+
+
+    });
+  }
+
+  $scope.logout = function() {
+
+    firebase.auth().signOut().then(function() {
+      console.log("Erfolgreich ausgeloggt");
+      $state.go('kAMToolsAnmeldung');
+    }, function(error) {
+      console.log(error);
+    });
+    }
 }])
 
 .controller('lPKCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -179,57 +207,67 @@ function ($scope, $stateParams) {
 }])
 
 .controller('kAMToolsAnmeldungCtrl',
-          ['$scope','$stateParams', '$state', '$http', '$location', '$firebaseAuth', 'AuthFactory',
- function ($scope, $stateParams, $state, $http,  $location, $firebaseAuth, AuthFactory) {
+          ['$scope','$stateParams', '$state', '$http', '$location', '$firebaseAuth', '$timeout', '$ionicPopup', 'AuthFactory',
+ function ($scope, $stateParams, $state, $http,  $location, $firebaseAuth, $timeout, $ionicPopup, AuthFactory) {
 
-   var accessToken;
    var provider;
+   var authData = firebase.auth();
 
-   $scope.email ='';
-   $scope.password ='';
+   $scope.loginData = {};
 
-   /*if(firebase.auth().currentUser.uid.length > 0) {
-     $state.go('menu.todos');
-   }*/
+  $timeout(function() {
+     if(authData.currentUser != null) {
+       $state.go('menu.todos');
+     }
+   }, 1500);
 
    $scope.login = function(how) {
      console.log(how);
 
-     console.log(firebase.auth().currentUser.uid.length);
+     if (authData.currentUser == null) { // nicht eingeloggt
 
-     if(how == "google") {
-       console.log("mit google");
-       provider = new firebase.auth.GoogleAuthProvider();
-     }
-     else if(how == "facebook") {
-       provider = new firebase.auth.FacebookAuthProvider();
-     }
-     else if(how == "github") {
-       provider = new firebase.auth.GithubAuthProvider();
-     }
-     else { // Credential Login
+       if(how == "credentials") {
+          console.log($scope.loginData.email + "-" + $scope.loginData.password);
 
-     }//
+         firebase.auth().signInWithEmailAndPassword($scope.loginData.email, $scope.loginData.password).catch(function(error) {
+           var alertPopup = $ionicPopup.alert({
+               title: 'Fehler',
+               template: error
+           });
+         });
 
-     console.log($scope.email + "->" + $scope.password);
+         // alles ersetzen duch onAuth
+         
+         $state.go('menu.todos');
 
-     if(firebase.auth().currentUser.uid.length <= 0) {
+       }
+       else {
+         if(how == "google") {
+           console.log("mit google");
+           provider = new firebase.auth.GoogleAuthProvider();
+         }
+         else if(how == "facebook") {
+           provider = new firebase.auth.FacebookAuthProvider();
+         }
+         else if(how == "github") {
+           provider = new firebase.auth.GithubAuthProvider();
+         }
 
-        AuthFactory.socialLogin(provider).then(function(result) {
-          console.log("erfolgreich eingeloggt!");
+         AuthFactory.socialLogin(provider).then(function(result) {
+           console.log("erfolgreich eingeloggt!");
 
-          AuthFactory.setUserInfos(result.user);
-          AuthFactory.setUserName(firebase.auth().currentUser.providerData[0].displayName);
-          AuthFactory.setUserID(firebase.auth().currentUser.uid);
+           AuthFactory.setUserInfos(result.user);
+           AuthFactory.setUserName(firebase.auth().currentUser.providerData[0].displayName);
+           AuthFactory.setUserID(firebase.auth().currentUser.uid);
 
           $state.go('menu.todos');
-        });
-
+          });
+        }
       }
-      else  {
-        console.log("kein login erforderlich, token ist: " + firebase.auth().currentUser.uid);
-        $state.go('menu.todos');
-      }
+      else  { // ist eingeloggt
+         console.log("kein login erforderlich, token ist: " + firebase.auth().currentUser.uid);
+         $state.go('menu.todos');
+       }
     }
 
 
@@ -371,54 +409,149 @@ function ($scope, $stateParams, $state, $ionicPopup, transaktionsService, AuthFa
 
 }])
 
-.controller('meineDienststellenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('meineDienststellenCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, AuthFactory) {
+  var uid=firebase.auth().currentUser.uid;
+
+  console.log(uid);
+
+  var meineDienststellen = AuthFactory.readData('dienststellen/' + uid);
+  console.log(meineDienststellen);
+
+  $scope.dienststellen = meineDienststellen;
 
 
 }])
 
-.controller('dienststelleAnlegenCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaToast', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('detailedDepartmentCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $firebaseArray, $cordovaToast) {
+function ($scope, $stateParams, AuthFactory) {
+
+}])
+
+.controller('registerCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
+
+  var auth = firebase.auth();
+
+  $scope.register = {};
+
+  $scope.register = function() {
+
+    auth.createUserWithEmailAndPassword(
+      $scope.register.email,
+      $scope.register.password).then(function(userData) {
+
+        console.log("User " + userData.uid + " created successfully!");
+
+        console.log("userData nach Erstellung", userData);
+
+        console.log("name in textfeld: ", $scope.register.fullname);
+        // Namen ergänzen
+        firebase.auth().currentUser.updateProfile({
+          displayName: $scope.register.fullname,
+        }).then(function() {
+          console.log("name gesetzt, alles super");
+          $state.go('menu.todos');
+        }, function(error) {
+          console.log("fehler beim profil updaten:", error);
+          // An error happened.
+        });
+    }).catch(function(error) {
+      /*$ionicPopup.alert({
+        title: 'Fehler!',
+        template: error
+      });*/
+      console.log("fehler in catch", error);
+
+
+    });
+  }
+}])
+
+.controller('dienststelleAnlegenCtrl', ['$scope', '$stateParams', '$firebaseArray', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $firebaseArray, $state) {
 
   var uid = firebase.auth().currentUser.uid;
+
+  $scope.dst = {};
 
   $scope.add = function() {
 
     console.log("bin in add()");
 
-    if($scope.name.length > 0) {
+    console.log($scope.dst.name);
+    if($scope.dst.name.length > 0) {
       var postData = {
-        dienststelle: $scope.name
+        dienststelle: $scope.dst.name
       };
 
       //var newPostKey = firebase.database().ref().child('dienststellen/' + uid).push().key;
 
       var updates = {};
-      updates['/dienststellen/' + uid + '/' + $scope.name] = postData;
+      updates['/dienststellen/' + uid + '/' + $scope.dst.name] = postData;
+
 
       firebase.database().ref().update(updates);
 
-      $state.go('meineDienststellen');
+      $state.go('menu.meineDienststellen');
 
 
     }
     else {
       // Toast
-      $cordovaToast.showLongBottom('Bitte Bezeichnung eingeben').then(function(success) {
-          // success
-        }, function (error) {
-          // error
-        });
+      console.log("feld ist leer..." + $scope.name);
     }
   }
 
 }])
 
+.controller('globaleNachrichtenCtrl', ['$scope', '$stateParams', '$filter', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $filter, AuthFactory) {
 
+  $scope.msg = {};
+  var uid=firebase.auth().currentUser.uid;
+
+
+  function loadMessages() {
+    var news = AuthFactory.readData('news/');
+
+    console.log(news);
+    $scope.messages = news;
+  }
+
+  loadMessages();
+
+  $scope.addMsg = function() {
+
+    console.log("bin in add");
+    if($scope.msg.add.length > 0) {
+      var postData = {
+        from: firebase.auth().currentUser.displayName,
+        message: $scope.msg.add,
+        datetime: new Date()
+      };
+
+      var newPostKey = firebase.database().ref().child('news/' + uid).push().key;
+
+      var updates = {};
+      updates['/news/' + newPostKey] = postData;
+
+      firebase.database().ref().update(updates);
+      $scope.msg.add = '';
+
+    }
+  }
+}])
 
 .controller('neueAufgabeEintragenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function

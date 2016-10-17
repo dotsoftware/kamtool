@@ -15,7 +15,7 @@
           <button ng-click="addTodo()" class="button button-balanced  button-block">Hinzufügen</button>
       </form>
 
-      <div class="card list" ng-repeat="todo in todos">
+      <!--<div class="card list" ng-repeat="todo in todos">
          <div class="item item-divider">
             Fällig: {{todo.todoDate}}
          </div>
@@ -27,6 +27,16 @@
          <div class="item item-divider">
             <button class="button button-clear button-icon button-assertive ion-trash-a" ng-click="deleteTodo(todo)"></button>
          </div>
-      </div>
+      </div> -->
+
+      <ion-list show-delete="false" can-swipe="true">
+          <ion-item href="#" collection-repeat="todo in todos">
+              {{todo.todo}}<br/>
+              {{todo.todoDate}}
+              <ion-option-button class="button-light icon ion-heart"></ion-option-button>
+              <ion-option-button class="button-light icon ion-email"></ion-option-button>
+              <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
+          </ion-item>
+      </ion-list>
     </ion-content>
 </ion-view>

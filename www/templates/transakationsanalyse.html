@@ -32,7 +32,7 @@
       </div>-->
 
     <div class="list card" >
-      <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" collection-repeat="item in customers" class="item item-content">{{item.personName}}</a>
+      <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" ng-repeat="item in customers" class="item item-content">{{item.personName}}</a>
     </div>
     <div style="text-align:center" ng-hide="personen.length < 1">Noch keine Bewertungen.</div>
 

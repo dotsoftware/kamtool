@@ -39,12 +39,12 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('menu.vorhaben', {
-    url: '/page_vorhaben',
+  .state('menu.globaleNachrichten', {
+    url: '/page_news',
     views: {
       'menuContent': {
-        templateUrl: 'templates/vorhaben.html',
-        controller: 'vorhabenCtrl'
+        templateUrl: 'templates/globaleNachrichten.html',
+        controller: 'globaleNachrichtenCtrl'
       }
     }
   })
@@ -71,6 +71,12 @@ angular.module('app.routes', [])
     controller: 'kAMToolsAnmeldungCtrl'
   })
 
+  .state('register', {
+    url: '/page_register',
+    templateUrl: 'templates/register.html',
+    controller: 'registerCtrl'
+  })
+
   .state('neuePersonBewerten', {
     url: '/page_add_transaction',
     templateUrl: 'templates/neuePersonBewerten.html',
@@ -91,6 +97,12 @@ angular.module('app.routes', [])
     url: '/page_add_department',
     templateUrl: 'templates/neueDienststelle.html',
     controller: 'dienststelleAnlegenCtrl'
+  })
+
+  .state('detailedDepartment', {
+    url: '/page_detailed_department/:departmentName',
+    templateUrl: 'templates/detailedDepartment.html',
+    controller: 'detailedDepartmentCtrl'
   })
 
   .state('neueAufgabeEintragen', {

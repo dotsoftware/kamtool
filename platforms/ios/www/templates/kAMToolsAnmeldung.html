@@ -1,13 +1,13 @@
-<ion-view title="KAM Tools - Anmeldung" id="page6">
+<ion-view title="KAM Tools - Anmeldung">
     <ion-content padding="true" class="has-header">
         <form id="kAMToolsAnmeldung-form2" class="list">
             <div class="spacer" style="width: 279px; height: 33px;"></div>
-            <ion-list id="kAMToolsAnmeldung-list2">
-                <label class="item item-input" id="kAMToolsAnmeldung-input3">
-                    <input type="text" placeholder="E-Mail" ng-model="email">
+            <ion-list>
+                <label class="item item-input">
+                    <input type="text" placeholder="E-Mail" ng-model="loginData.email">
                 </label>
-                <label class="item item-input" id="kAMToolsAnmeldung-input4">
-                    <input type="password" placeholder="Passwort" ng-model="password">
+                <label class="item item-input">
+                    <input type="password" placeholder="Passwort" ng-model="loginData.password">
                 </label>
             </ion-list>
             <div class="spacer" style="height: 40px;"></div>
@@ -16,7 +16,7 @@
             <button class="button button-positive icon ion-social-facebook" ng-click="login('facebook')"> Anmelden mit Facebook</button>
             <button class="button button-royal icon ion-social-github" ng-click="login('github')">Anmelden mit GitHub</button>
 
-            <a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" id="kAMToolsAnmeldung-button4" class="button button-positive  button-block button-clear">oder erstelle einen Account</a>
+            <a ui-sref="register" class="button button-positive  button-block button-clear">oder erstelle einen Account</a>
         </form>
     </ion-content>
 </ion-view>
