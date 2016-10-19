@@ -1,27 +1,24 @@
 <ion-view title="Todos">
   <ion-nav-buttons side="right">
-      <button class="button button-icon button-clear ion-plus-round" ng-click="addTask()"></button>
+      <button class="button button-icon button-clear ion-plus-round" ui-sref="newTodo"></button>
   </ion-nav-buttons>
     <ion-content padding="true" class="has-header">
 
-      <form class="list">
-          <label class="item item-input">
-              <input type="text" placeholder="Bezeichnung" ng-model="newTodo.text">
-          </label>
-          <label class="item item-input">
-              <input type="text" placeholder="Fällig am" ng-model="newTodo.date">
-          </label>
-          <div class="spacer" style="width: 279px; height: 28px;"></div>
-          <button ng-click="addTodo()" class="button button-balanced  button-block">Hinzufügen</button>
-      </form>
-
       <ion-list show-delete="false" can-swipe="true">
-          <ion-item ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" class="item-remove-animate" collection-repeat="item in todos" item="item">
-              {{item.todo}}<br/>
-              {{item.todoDate}}
-              <ion-option-button ng-click="done(item)" class="button-light icon ion-email"></ion-option-button>
-              <ion-option-button ng-click="deleteTodo(item)" class="button-assertive icon ion-trash-a"></ion-option-button>
+          <ion-item class="item-remove-animate" collection-repeat="item in todos" item="item">
+              <div ng-if="item.done">
+                <del>{{item.todo}}<br/>
+                  {{item.todoDate}}</del>
+              </div>
+              <div ng-if="!item.done">
+                {{item.todo}}<br/>
+                {{item.todoDate}}</del>
+              </div>
+              <ion-option-button ng-click="item.done=true;todos.$save(item);" ng-if="!item.done" class="button-light icon ion-checkmark-round"></ion-option-button>
+              <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a"></ion-option-button>
           </ion-item>
       </ion-list>
+
+      <div style="text-align:center" ng-if="todos.length < 1">Keine Todos</ion-item>
     </ion-content>
 </ion-view>

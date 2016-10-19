@@ -105,10 +105,10 @@ angular.module('app.routes', [])
     controller: 'detailedDepartmentCtrl'
   })
 
-  .state('neueAufgabeEintragen', {
+  .state('newTodo', {
     url: '/page_add_todo',
-    templateUrl: 'templates/neueAufgabeEintragen.html',
-    controller: 'neueAufgabeEintragenCtrl'
+    templateUrl: 'templates/newTodo.html',
+    controller: 'newTodoCtrl'
   })
 
 $urlRouterProvider.otherwise('/page_login')

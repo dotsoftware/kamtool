@@ -1,4 +1,4 @@
-<ion-view view-title="Kundenprofile">
+<ion-view view-title="Kundenprofile" cache-view="false">
   <ion-nav-buttons side="right">
       <button class="button button-icon button-clear ion-plus-round" ui-sref="neuePersonBewerten"></button>
   </ion-nav-buttons>
@@ -32,7 +32,7 @@
       </div>-->
 
     <div class="list card" >
-      <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" ng-repeat="item in customers" class="item item-content">{{item.personName}}</a>
+        <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" ng-repeat="item in customers" ng-if="item.personName != 'ICH'" class="item item-content">{{item.personName}}</a>
     </div>
     <div style="text-align:center" ng-hide="customers.length ">Noch keine Bewertungen.</div>
 

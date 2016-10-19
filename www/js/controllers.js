@@ -5,18 +5,16 @@ angular.module('app.controllers', [])
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, AuthFactory) {
-
-  var uid =  firebase.auth().currentUser.uid;
+  var uid =  AuthFactory.getUserID(); //firebase.auth().currentUser.uid;
 
   var todoTasks;
 
-  $scope.newTodo = {};
   $scope.todos = {};
 
   getTodoList();
 
   function getTodoList() {
-    todoTasks = AuthFactory.readData('todos/' + uid);
+    todoTasks = AuthFactory.readData('todos/' + AuthFactory.getUserID());
     console.log(todoTasks);
     $scope.todos = todoTasks;
   }
@@ -28,12 +26,28 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
     });
   }
 
+  $scope.done = function(item) {
+    item.done=true;
+    todoTasks.$save(item);
+  }
+
+}])
+
+.controller('newTodoCtrl', ['$scope', '$stateParams', '$state', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $state, AuthFactory) {
+  var uid = AuthFactory.getUserID(); //firebase.auth().currentUser.uid;
+  $scope.newTodo = {};
+
+
   $scope.addTodo = function(){
 
     var postData = {
       //uid: firebase.auth().currentUser.uid,
       todo: $scope.newTodo.text,
-      todoDate: $scope.newTodo.date
+      todoDate: $scope.newTodo.date,
+      done: false
     };
 
     var newPostKey = firebase.database().ref().child('todos/' + uid).push().key;
@@ -43,7 +57,9 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
 
     firebase.database().ref().update(updates);
 
+    $state.go('menu.todos');
   };
+
 
 }])
 
@@ -170,27 +186,22 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams, $state, AuthFactory) {
   var user= firebase.auth().currentUser;
 
-  if(firebase.auth().currentUser != undefined)  $scope.KAM_NAME = firebase.auth().currentUser.displayName;
-  else $scope.KAM_NAME = "User nicht gesetzt";
-
-  console.log(user);
-
-  if (user != null) {
-    user.providerData.forEach(function (profile) {
-
-      console.log(profile);
-      console.log("Sign-in provider: "+profile.providerId);
-      console.log("  Provider-specific UID: "+profile.uid);
-      console.log("  Name: "+ profile.displayName);
-      console.log("  Email: "+profile.email);
-      console.log("  Photo URL: "+profile.photoURL);
-
-      $scope.PROFILE_PIC = profile.photoURL;
+  console.log("user info:", user);
+  console.log("providerData: ", user.providerData);
+  console.log("displayName:", user.displayName);
 
 
-    });
+  if(user.providerData[0].providerId == "password") {
+    $scope.KAM_NAME = user.displayName;
+
+    AuthFactory.setUserName(user.displayName);
   }
+  else {
+    $scope.KAM_NAME = user.providerData[0].displayName;
+    $scope.PROFILE_PIC = user.providerData[0].photoURL;
+    AuthFactory.setUserName(user.providerData[0].displayName);
 
+  }
   $scope.logout = function() {
 
     $state.go('kAMToolsAnmeldung');
@@ -440,8 +451,16 @@ function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
   var auth = firebase.auth();
 
   $scope.register = {};
+  $scope.error = false;
+
 
   $scope.register = function() {
+
+
+    if($scope.password != $scope.validatepass) {
+      $scope.error = true;
+      $scope.errorMessage = "Passwörter stimmen nicht überein";
+    }
 
     auth.createUserWithEmailAndPassword(
       $scope.register.email,
@@ -463,11 +482,9 @@ function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
           // An error happened.
         });
     }).catch(function(error) {
-      /*$ionicPopup.alert({
-        title: 'Fehler!',
-        template: error
-      });*/
-      console.log("fehler in catch", error);
+      $scope.error = true;
+      $scope.errorMessage = error;
+      console.log("fehler in catch", error.message);
 
 
     });
@@ -535,7 +552,7 @@ function ($scope, $stateParams, $filter, $ionicScrollDelegate, AuthFactory) {
   $scope.addMsg = function() {
     if($scope.msg.add.length > 0) {
       var postData = {
-        from: firebase.auth().currentUser.displayName,
+        from: AuthFactory.getUserName(), // -> IST LEER!!
         message: $scope.msg.add,
         datetime: new Date()
       };

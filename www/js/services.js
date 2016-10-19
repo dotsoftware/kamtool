@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
 
-.factory('AuthFactory', ['$rootScope', '$firebaseArray', function($firebaseAuth, $firebaseArray, $rootScope){
+.factory('AuthFactory', ['$rootScope', '$firebaseArray', '$timeout', function($firebaseAuth, $firebaseArray, $rootScope, $timeout){
 
   var userID;
   var acessToken;
@@ -14,7 +14,7 @@ angular.module('app.services', [])
     },
 
     readData: function(table) {
-      console.log("user id:" + firebase.auth().currentUser.uid);
+      //console.log("user id:" + firebase.auth().currentUser.uid);
 
       var userPostsRef = firebase.database().ref().child(table);
       console.log($firebaseArray(userPostsRef));
@@ -26,7 +26,7 @@ angular.module('app.services', [])
     },
 
     getUserID: function() {
-      return userID;
+        return firebase.auth().currentUser.uid;
 
     },
 

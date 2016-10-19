@@ -9,14 +9,14 @@
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
     <ion-side-menu side="left" id="menuContent">
-        <ion-content padding="false" style="top:0px !important;" class="side-menu-left ">
+        <ion-content padding="false" style="top:0px !important;" class="custom">
             <div class="spacer" style="width: 251.2px; height: 30px;"></div>
             <ion-list>
-                <ion-item class="item-avatar">
-                    <h2>Eingeloggt als</h2>
-                    <img src="{{PROFILE_PIC}}" />
-                    <p>{{KAM_NAME}}</p>
-                </ion-item>
+              <ion-item class="item item-avatar">
+                  <img src="{{PROFILE_PIC}}" />
+                  Eingeloggt als<br/>{{KAM_NAME}}
+              </ion-item>
+
                 <ion-item class="item-icon-left dark" ui-sref="menu.todos" menu-close="">
                     <i class="icon ion-ios-lightbulb-outline"></i>Aufgabenverwaltung</ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.transakationsanalyse" menu-close="">
