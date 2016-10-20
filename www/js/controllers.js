@@ -43,13 +43,15 @@ function ($scope, $stateParams, $state, AuthFactory) {
 
   $scope.addTodo = function(){
 
+
     var postData = {
-      //uid: firebase.auth().currentUser.uid,
+      uid: firebase.auth().currentUser.uid,
       todo: $scope.newTodo.text,
       todoDate: $scope.newTodo.date,
       done: false
     };
 
+    console.log(postData);
     var newPostKey = firebase.database().ref().child('todos/' + uid).push().key;
 
     var updates = {};
@@ -215,11 +217,38 @@ function ($scope, $stateParams, $state, AuthFactory) {
     }
 }])
 
-.controller('lPKCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('lPKCtrl', ['$scope', '$stateParams', '$ionicFilterBar', 'AuthFactory',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicFilterBar, AuthFactory) {
+   var lpkData = AuthFactory.readData('lpk/');
 
+   console.log(lpkData);
+   $scope.lpk = lpkData;
+
+   $scope.toggleItem= function(item) {
+    if ($scope.isItemShown(item)) {
+      $scope.shownItem = null;
+    } else {
+      $scope.shownItem = item;
+    }
+  };
+  $scope.isItemShown = function(item) {
+    return $scope.shownItem === item;
+  };
+
+  $scope.showFilterBar = function () {
+    filterBarInstance = $ionicFilterBar.show({
+      items: $scope.lpk,
+      filterProperties: ['beschreibung'], 
+      update: function (filteredItems, filterText) {
+        $scope.lpk = filteredItems;
+        if (filterText) {
+          console.log(filterText);
+        }
+      }
+    });
+  };
 
 }])
 

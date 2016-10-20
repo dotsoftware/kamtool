@@ -1,6 +1,26 @@
 <ion-view title="LPK">
   <ion-nav-buttons side="right">
-      <button class="button button-icon button-clear ion-search"></button>
+      <button class="button button-icon button-clear ion-search" ng-click="showFilterBar()"></button>
   </ion-nav-buttons>
-    <ion-content padding="true" class="has-header"></ion-content>
+    <ion-content padding="true" class="has-header">
+       <ion-list>
+         <div collection-repeat="item in lpk">
+          <div class="list card">
+            <ion-item class="item cardHeader">LPK {{item.$id}} - {{item.name}}</ion-item>
+            <div class="item item-body">
+                <div style="color:#000000;">
+                    <p style="margin-top:0px;">{{item.beschreibung}}</p>
+                </div>
+            </div>
+            <ion-item class="item-icon-left assertive">
+                <i class="icon ion-social-euro"></i>Netto: {{item.preisNetto}} .--
+                <br>Brutto: {{item.preisBrutto}} .--
+            </ion-item>
+          </div>
+          <div class="spacer" style="width: 279px; height: 10px;"></div>
+
+        </div>
+
+        </ion-list>
+    </ion-content>
 </ion-view>

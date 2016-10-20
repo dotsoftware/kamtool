@@ -59,7 +59,7 @@ angular.module('app.routes', [])
     url: '/page_lpk',
     views: {
       'menuContent': {
-        templateUrl: 'templates/lPK.html',
+        templateUrl: 'templates/lpk.html',
         controller: 'lPKCtrl'
       }
     }
