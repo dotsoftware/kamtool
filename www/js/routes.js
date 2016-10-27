@@ -18,6 +18,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('menu.editprofile', {
+  url: '/page_editprofile',
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/editprofile.html',
+      controller: 'editprofileCtrl'
+    }
+  }
+})
+
   .state('menu.transakationsanalyse', {
     url: '/page_transaktionsanalyse',
     views: {

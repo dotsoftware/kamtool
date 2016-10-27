@@ -240,7 +240,7 @@ function ($scope, $stateParams, $ionicFilterBar, AuthFactory) {
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
       items: $scope.lpk,
-      filterProperties: ['beschreibung'], 
+      filterProperties: ['beschreibung'],
       update: function (filteredItems, filterText) {
         $scope.lpk = filteredItems;
         if (filterText) {
@@ -559,17 +559,26 @@ function ($scope, $stateParams, $firebaseArray, $state) {
 
 }])
 
-.controller('globaleNachrichtenCtrl', ['$scope', '$stateParams', '$filter', '$ionicScrollDelegate', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('globaleNachrichtenCtrl', ['$scope', '$stateParams', '$filter', '$firebaseArray', '$ionicScrollDelegate', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $filter, $ionicScrollDelegate, AuthFactory) {
+function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, AuthFactory) {
 
   $scope.msg = {};
   var uid=firebase.auth().currentUser.uid;
 
 
   function loadMessages() {
-    var news = AuthFactory.readData('news/');
+    //var news = AuthFactory.readData('news/');
+
+    var ref = firebase.database().ref().child('news/');
+    news = $firebaseArray(ref);
+
+    ref.on('child_added', function(message) {
+      var message = message.val();
+      news.push(message);
+      $ionicScrollDelegate.scrollBottom();
+    });
 
     console.log(news);
     $scope.messages = news;
@@ -581,7 +590,7 @@ function ($scope, $stateParams, $filter, $ionicScrollDelegate, AuthFactory) {
   $scope.addMsg = function() {
     if($scope.msg.add.length > 0) {
       var postData = {
-        from: AuthFactory.getUserName(), // -> IST LEER!!
+        from: AuthFactory.getUserName(),
         message: $scope.msg.add,
         datetime: new Date()
       };
@@ -599,9 +608,28 @@ function ($scope, $stateParams, $filter, $ionicScrollDelegate, AuthFactory) {
   }
 }])
 
-.controller('neueAufgabeEintragenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('editprofileCtrl', ['$scope', '$stateParams', '$firebaseArray', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $firebaseArray) {
+  // var ref = firebase.database().ref().child('news/');
+  // Points to the root reference
+  var storageRef = firebase.storage().ref();
 
+  // Points to 'images'
+  var imagesRef = storageRef.child('images');
+
+  // Points to 'images/space.jpg'
+  // Note that you can use variables to create child values
+  var fileName = 'space.jpg';
+  var spaceRef = imagesRef.child(fileName);
+
+  // File path is 'images/space.jpg'
+  var path = spaceRef.fullPath
+
+  // File name is 'space.jpg'
+  var name = spaceRef.name
+
+  // Points to 'images'
+  var imagesRef = spaceRef.parent;
 }])
