@@ -605,14 +605,17 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
   }
 }])
 
-.controller('editprofileCtrl', ['$scope', '$stateParams', '$firebaseArray', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('editprofileCtrl', ['$scope', '$stateParams', '$firebaseArray', '$ionicPopup', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $firebaseArray, $ionicPopup) {
+function ($scope, $stateParams, $firebaseArray, $ionicPopup, AuthFactory) {
   // var ref = firebase.database().ref().child('news/');
   // Points to the root reference
   
   $scope.profile = {};
+  
+  var avatars = AuthFactory.readData('avatars/');
+  $scope.profile_pics = avatars;
   
   $scope.changePassword = function() {
     
@@ -625,7 +628,7 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup) {
     }
                         
     firebase.auth().changePassword({
-      email       : "bobtony@firebase.com", //firebase.auth().currentUser.email?
+      email       : firebase.auth().currentUser.email,
       oldPassword : $scope.profile.oldpassword,
       newPassword : $scope.profile.newpassword
     }, function(error) {
@@ -639,24 +642,5 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup) {
        });
       }
   }
-   /*                                 
-  var storageRef = firebase.storage().ref();
-
-  // Points to 'images'
-  var imagesRef = storageRef.child('images');
-
-  // Points to 'images/space.jpg'
-  // Note that you can use variables to create child values
-  var fileName = 'space.jpg';
-  var spaceRef = imagesRef.child(fileName);
-
-  // File path is 'images/space.jpg'
-  var path = spaceRef.fullPath
-
-  // File name is 'space.jpg'
-  var name = spaceRef.name
-
-  // Points to 'images'
-  var imagesRef = spaceRef.parent;
-  */
+   
 }])
