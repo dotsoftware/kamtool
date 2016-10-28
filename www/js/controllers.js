@@ -163,10 +163,6 @@ function ($scope, $stateParams, $ionicPopup, AuthFactory) {
         $scope.myselfNotSet = true;
       }
     })
-
-
-
-
 }])
 
 .controller('mainController', function($scope, transaktionsService) {
@@ -578,15 +574,19 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
   $scope.msg = {};
   var uid=firebase.auth().currentUser.uid;
 
-  $scope.myUsername = AuthFactory.getUserName();
+  $scope.myUsername = firebase.auth().currentUser.displayName;
 
   function loadMessages() {
-    //var news = AuthFactory.readData('news/');
+    var news = AuthFactory.readData('news/');
+
+    //var ref = firebase.database().ref().child('news/');
+    //news = $firebaseArray(ref);
 
     var ref = firebase.database().ref().child('news/');
-    news = $firebaseArray(ref);
+    $scope.messages = $firebaseArray(ref);
 
     console.log(news);
+
     ref.on('child_added', function(message) {
       var message = message.val();
       news.push(message);
@@ -594,7 +594,8 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
     });
 
     console.log(news);
-    $scope.messages = news;
+
+
     $ionicScrollDelegate.scrollBottom();
   }
 
@@ -627,7 +628,6 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $firebaseArray, $ionicPopup, AuthFactory) {
-  // var ref = firebase.database().ref().child('news/');
   // Points to the root reference
 
   $scope.profile = {};

@@ -1,7 +1,7 @@
 <ion-view title="Chat Nachrichten">
     <ion-content padding="true" class="has-header">
 
-      <div style="text-align:center" ng-hide="messages.length">Keine aktuellen Nachrichten.</div>
+    <div style="text-align:center" ng-hide="messages.length">Keine aktuellen Nachrichten.</div>
 
     <ol class="chat" ng-repeat="message in messages">
       <li ng-if="message.from!=myUsername" class="other">
@@ -17,8 +17,7 @@
 
       <li ng-if="message.from==myUsername" class="self">
           <div class="avatar">
-            <img ng-if="message.photoURL.length > 0" ng-src="{{message.photoURL}}" err-src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" draggable="false"/>
-            <img ng-if="message.photoURL.length==0" src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" />
+            <img ng-src="{{message.photoURL}}" err-src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" draggable="false"/>
           </div>
         <div class="msg">
           <p>{{message.from}}:<br/>{{message.message}}</p>
