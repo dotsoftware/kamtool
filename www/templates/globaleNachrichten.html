@@ -5,7 +5,7 @@
 
     <ol class="chat" ng-repeat="message in messages">
       <li ng-if="$odd" class="other">
-          <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
+          <div class="avatar"><img ng-src="{{message.photoURL}}" err-src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
         <div class="msg">
 
           <p>{{message.from}}:<br/>{{message.message}}</p>
@@ -14,7 +14,7 @@
       </li>
 
       <li ng-if="$even" class="self">
-          <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
+          <div class="avatar"><img ng-src="{{message.photoURL}}" err-src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
         <div class="msg">
           <p>{{message.from}}:<br/>{{message.message}}</p>
           <p>{{message.datetime}}</p>
