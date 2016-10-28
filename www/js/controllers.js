@@ -15,7 +15,7 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
 
   function getTodoList() {
     todoTasks = AuthFactory.readData('todos/' + AuthFactory.getUserID());
-    console.log(todoTasks);
+
     $scope.todos = todoTasks;
   }
 
@@ -65,22 +65,27 @@ function ($scope, $stateParams, $state, AuthFactory) {
 
 }])
 
-.controller('transaktionsanalyseCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('transaktionsanalyseCtrl', ['$scope', '$stateParams', '$ionicPopup', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, AuthFactory) {
+function ($scope, $stateParams, $ionicPopup, AuthFactory) {
   var uid =  firebase.auth().currentUser.uid;
 
   var ratedCustomers = AuthFactory.readData('person_analysis/' + uid);
   $scope.customers = ratedCustomers;
-}])
-
-.controller('vorhabenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
+  
+  
+    $scope.deletePerson(item) {
+      ratedCustomers.$remove(item).then(function() {
+         // successfully deleted
+      }).catch(function(error) {
+          var alertPopup = $ionicPopup.alert({
+          title: 'Fehler',
+          template: error.message
+      });
+        
+      }
+    }
 }])
 
 .controller('detailedPersonController', ['$scope', '$stateParams', '$filter', '$firebaseObject', '$firebaseArray', 'transaktionsService', 'AuthFactory', function($scope, $stateParams, $filter, $firebaseObject, $firebaseArray, transaktionsService, AuthFactory) {
@@ -107,22 +112,12 @@ function ($scope, $stateParams) {
         ratedPerson[2].$value //.RK
       ];
 
-      /*$scope.data = [
-        15,
-        20,
-        10,
-        15,
-        20
-      ];*/
-
     })
 
     console.log(ratedPerson);
 
     var myselfRef = firebase.database().ref().child("person_analysis/" + uid + "/ICH");
     var myself = $firebaseArray(myselfRef);
-
-    console.log("ich selbst:", myself);
 
     myself.$loaded().then(function() {
       if(myself.length < 0) return;
@@ -608,12 +603,32 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
   }
 }])
 
-.controller('editprofileCtrl', ['$scope', '$stateParams', '$firebaseArray', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('editprofileCtrl', ['$scope', '$stateParams', '$firebaseArray', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $firebaseArray) {
+function ($scope, $stateParams, $firebaseArray, $ionicPopup) {
   // var ref = firebase.database().ref().child('news/');
   // Points to the root reference
+  
+  $scope.profile = {};
+  
+  $scope.changePassword = function() {
+    firebase.auth().changePassword({
+      email       : "bobtony@firebase.com",
+      oldPassword : $scope.profile.oldpassword,
+      newPassword : $scope.profile.newpassword
+    }, function(error) {
+      if (error === null) {
+        console.log("Password changed successfully");
+      } else {
+        console.log("Error changing password:", error);
+        var alertPopup = $ionicPopup.alert({
+           title: 'Fehler',
+           template: error
+       });
+      }
+  }
+   /*                                 
   var storageRef = firebase.storage().ref();
 
   // Points to 'images'
@@ -632,4 +647,5 @@ function ($scope, $stateParams, $firebaseArray) {
 
   // Points to 'images'
   var imagesRef = spaceRef.parent;
+  */
 }])
