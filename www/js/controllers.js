@@ -614,7 +614,7 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, AuthFactory) {
   
   $scope.profile = {};
   
-  var avatars = AuthFactory.readData('avatars/');
+  var avatars = AuthFactory.readData('avatars/public/');
   $scope.profile_pics = avatars;
   
   $scope.changePassword = function() {
