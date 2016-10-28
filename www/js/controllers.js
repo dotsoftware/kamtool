@@ -613,8 +613,17 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup) {
   $scope.profile = {};
   
   $scope.changePassword = function() {
+    
+    if($scope.profile.oldpassword != $scope.profile.newpassword) {
+      $ionicPopup.alert({
+        title: "Achtung",
+        template: "Passwörter stimmen nicht überein"
+      }
+      return;   
+    }
+                        
     firebase.auth().changePassword({
-      email       : "bobtony@firebase.com",
+      email       : "bobtony@firebase.com", //firebase.auth().currentUser.email?
       oldPassword : $scope.profile.oldpassword,
       newPassword : $scope.profile.newpassword
     }, function(error) {
