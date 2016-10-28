@@ -15,7 +15,7 @@
                 {{item.todoDate}}</del>
               </div>
               <ion-option-button ng-click="item.done=true;todos.$save(item);" ng-if="!item.done" class="button-light icon ion-checkmark-round"></ion-option-button>
-              <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a"></ion-option-button>
+              <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
           </ion-item>
       </ion-list>
 

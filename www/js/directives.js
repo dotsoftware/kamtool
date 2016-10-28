@@ -1,6 +1,6 @@
 angular.module('app.directives', [])
 
-.directive('err-src', function() {
+.directive('errSrc', function() {
   return {
     link: function(scope, element, attrs) {
       element.bind('error', function() {
@@ -11,7 +11,3 @@ angular.module('app.directives', [])
     }
   }
 })
-  
-.directive('blankDirective', [function(){
-
-}]);

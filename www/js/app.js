@@ -5,7 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services','firebase','chart.js', 'jett.ionic.filter.bar','ion-gallery'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services','firebase','chart.js', 'jett.ionic.filter.bar','angularMoment'])
+
+
+
 
 .config(function($ionicConfigProvider){
   var config = {
@@ -16,8 +19,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
     messagingSenderId: "127255670710"
   };
   firebase.initializeApp(config);
-
-  var rootRef = firebase.database().ref();
 
 })
 

@@ -15,10 +15,26 @@
         </form>
       </div>
 
-      <!--<ion-gallery ion-gallery-items="profile_pics" ion-item-callback="setImage(item)"></ion-gallery>-->
+      <!--<ion-gallery ion-gallery-items="profile_pics" ion-item-callback="setImage(item)"></ion-gallery>-
       <div class="col col-25" ng-repeat="image in avatars">
           <img ng-src="{{image.url}}" width="100%" ng-click="setAvatar(image.url)"/>
+      </div>-->
+    <div class="list card">
+      <ion-item class="item card-item">Profilbild wählen</ion-item>
+      <div class="row" ng-repeat="image in avatars" ng-if="$index % 4 === 0">
+            <div class="col col-25" ng-if="$index < avatars.length">
+                <img ng-click="setAvatar(avatars[$index].url)") ng-src="{{avatars[$index].url}}" width="100%" />
+            </div>
+            <div class="col col-25" ng-if="$index + 1 < avatars.length">
+                <img ng-click="setAvatar(avatars[$index + 2].url)" ng-src="{{avatars[$index + 1].url}}" width="100%" />
+            </div>
+            <div class="col col-25" ng-if="$index + 2 < avatars.length">
+                <img ng-click="setAvatar(avatars[$index + 2].url)" ng-src="{{avatars[$index + 2].url}}" width="100%" />
+            </div>
+            <div class="col col-25" ng-if="$index + 3 < avatars.length">
+                <img ng-click="setAvatar(avatars[$index + 3].url)" ng-src="{{avatars[$index + 3].url}}" width="100%" />
+            </div>
+        </div>
       </div>
-
     </ion-content>
 </ion-view>

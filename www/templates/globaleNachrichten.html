@@ -1,48 +1,39 @@
-<ion-pane title="Chat Nachrichten">
+<ion-view title="Chat Nachrichten">
     <ion-content padding="true" class="has-header">
 
       <div style="text-align:center" ng-hide="messages.length">Keine aktuellen Nachrichten.</div>
 
     <ol class="chat" ng-repeat="message in messages">
-      <li ng-if="$odd" class="other">
-          <div class="avatar"><img ng-src="{{message.photoURL}}" err-src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
+      <li ng-if="message.from!=myUsername" class="other">
+          <div class="avatar">
+            <img ng-src="{{message.photoURL}}" err-src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" draggable="false"/>
+          </div>
 
-          <p>{{message.from}}:<br/>{{message.message}}</p>
-          <p>{{message.datetime}}</p>
-        </div>
+          <div class="msg">
+            <p>{{message.from}}:<br/>{{message.message}}</p>
+            <time am-time-ago="message.datetime"></time>
+          </div>
       </li>
 
-      <li ng-if="$even" class="self">
-          <div class="avatar"><img ng-src="{{message.photoURL}}" err-src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
+      <li ng-if="message.from==myUsername" class="self">
+          <div class="avatar">
+            <img ng-if="message.photoURL.length > 0" ng-src="{{message.photoURL}}" err-src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" draggable="false"/>
+            <img ng-if="message.photoURL.length==0" src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" />
+          </div>
         <div class="msg">
           <p>{{message.from}}:<br/>{{message.message}}</p>
-          <p>{{message.datetime}}</p>
+          <time am-time-ago="message.datetime"></time>
+
         </div>
       </li>
     </ol>
-  <!--    <ion-scroll delegate-handle="chat">
-        <div class="card list" ng-repeat="item in messages">
-           <div class="item item-divider">
-              Von: {{item.from}}
-           </div>
 
-           <div class="item item-text-wrap">
-              {{item.message}}
-           </div>
+    <form class="list" ng-submit="addMsg()">
 
-           <div align="right" class="item item-divider">
-             {{item.datetime}}
-           </div>
-        </div>
-
-        <br/> -->
-          <form class="list" ng-submit="addMsg()">
-
-              <label class="item item-input">
-                  <input type="text" placeholder="Schreibe eine Nachricht" ng-model="msg.add">
-              </label>
-          </form>
+        <label class="item item-input">
+            <input type="text" placeholder="Schreibe eine Nachricht" ng-model="msg.add">
+        </label>
+    </form>
 
     </ion-content>
-</ion-pane>
+</ion-view>

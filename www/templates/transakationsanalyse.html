@@ -31,10 +31,16 @@
         </div>
       </div>-->
 
-    <div class="list card" >
-        <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" ng-repeat="item in customers" ng-if="item.personName != 'ICH'" class="item item-content">{{item.personName}}</a>
-        <ion-option-button ng-click="deletePerson(item)" class="button-asseertive ion-trash-b"></ion-option-button>
-    </div>
+
+      <ion-list show-delete="false" can-swipe="true">
+          <ion-item ui-sref="#/menuContent/page_detailed_person/{{item.personName}}" class="item-remove-animate" collection-repeat="item in customers" item="item">
+            {{item.personName}}
+            <!--<a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" ng-if="item.personName != 'ICH'">{{item.personName}}</a>-->
+            <ion-option-button ng-click="deletePerson(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
+          </ion-item>
+      </ion-list>
+
+
     <div style="text-align:center" ng-hide="customers.length ">Noch keine Bewertungen.</div>
 
   </ion-content>

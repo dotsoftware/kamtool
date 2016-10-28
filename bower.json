@@ -24,6 +24,7 @@
     "angularfire": "^2.0.2",
     "angular-chart.js": "^1.0.3",
     "animate.css": "^3.5.2",
-    "ion-gallery": "^0.1.14"
+    "ion-gallery": "^0.1.14",
+    "angular-momentjs": "^0.2.2"
   }
 }

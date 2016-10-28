@@ -73,19 +73,33 @@ function ($scope, $stateParams, $ionicPopup, AuthFactory) {
 
   var ratedCustomers = AuthFactory.readData('person_analysis/' + uid);
   $scope.customers = ratedCustomers;
-  
-  
-    $scope.deletePerson(item) {
-      ratedCustomers.$remove(item).then(function() {
-         // successfully deleted
-      }).catch(function(error) {
-          var alertPopup = $ionicPopup.alert({
-          title: 'Fehler',
-          template: error.message
-      });
-        
-      }
-    }
+
+
+  $scope.deletePerson = function (item) {
+
+    var confirmPopup = $ionicPopup.confirm({
+       title: 'Vorsicht',
+       template: item.personName + ' sicher löschen?'
+     });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       ratedCustomers.$remove(item).then(function() {
+          // successfully deleted
+       })
+       .catch(function(error) {
+           var alertPopup = $ionicPopup.alert({
+           title: 'Fehler',
+           template: error.message
+         });
+       })
+     }
+     else {
+      // console.log('You are not sure');
+     }
+    })
+  }
+
 }])
 
 .controller('detailedPersonController', ['$scope', '$stateParams', '$filter', '$firebaseObject', '$firebaseArray', 'transaktionsService', 'AuthFactory', function($scope, $stateParams, $filter, $firebaseObject, $firebaseArray, transaktionsService, AuthFactory) {
@@ -181,24 +195,20 @@ function ($scope, $stateParams, $ionicPopup, AuthFactory) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $state, AuthFactory) {
-  var user= firebase.auth().currentUser;
+  //var user= firebase.auth().currentUser;
 
-  console.log("user info:", user);
-  console.log("providerData: ", user.providerData);
-  console.log("displayName:", user.displayName);
-
-
-  if(user.providerData[0].providerId == "password") {
-    $scope.KAM_NAME = user.displayName;
-
-    AuthFactory.setUserName(user.displayName);
-  }
-  else {
-    $scope.KAM_NAME = user.providerData[0].displayName;
-    $scope.PROFILE_PIC = user.providerData[0].photoURL;
+//  if(firebase.auth().currentUser.providerData[0].providerId == "password") {
+    $scope.KAM_NAME = firebase.auth().currentUser.displayName;
+    $scope.PROFILE_PIC = firebase.auth().currentUser.photoURL;
+    AuthFactory.setUserName(firebase.auth().currentUser.displayName);
+//  }
+/*  else {
+    $scope.KAM_NAME = firebase.auth().currentUser.providerData[0].displayName;
+    $scope.PROFILE_PIC = firebase.auth().currentUser.photoURL; //providerData[0].photoURL;
     AuthFactory.setUserName(user.providerData[0].displayName);
 
-  }
+  }*/
+
   $scope.logout = function() {
 
     $state.go('kAMToolsAnmeldung');
@@ -268,7 +278,6 @@ function ($scope, $stateParams, $ionicFilterBar, AuthFactory) {
      console.log(how);
 
    if(how == "credentials") {
-      console.log($scope.loginData.email + "-" + $scope.loginData.password);
 
      firebase.auth().signInWithEmailAndPassword($scope.loginData.email, $scope.loginData.password).catch(function(error) {
        var alertPopup = $ionicPopup.alert({
@@ -280,7 +289,6 @@ function ($scope, $stateParams, $ionicFilterBar, AuthFactory) {
    else {
 
      if(how == "google") {
-       console.log("mit google");
        provider = new firebase.auth.GoogleAuthProvider();
      }
      else if(how == "facebook") {
@@ -481,9 +489,11 @@ function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
   $scope.register = function() {
 
 
-    if($scope.password != $scope.validatepass) {
+    if($scope.register.password != $scope.register.validatepass) {
       $scope.error = true;
       $scope.errorMessage = "Passwörter stimmen nicht überein";
+
+      return;
     }
 
     auth.createUserWithEmailAndPassword(
@@ -498,9 +508,10 @@ function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
         // Namen ergänzen
         firebase.auth().currentUser.updateProfile({
           displayName: $scope.register.fullname,
+          photoURL: 'https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png'
         }).then(function() {
           console.log("name gesetzt, alles super");
-          $state.go('menu.todos');
+          $state.go('/');
         }, function(error) {
           console.log("fehler beim profil updaten:", error);
           // An error happened.
@@ -508,7 +519,12 @@ function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
     }).catch(function(error) {
       $scope.error = true;
       $scope.errorMessage = error;
-      console.log("fehler in catch", error.message);
+
+
+      var alert = $ionicPopup.alert({
+         title: 'Fehler',
+         template: error
+       });
 
 
     });
@@ -562,6 +578,7 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
   $scope.msg = {};
   var uid=firebase.auth().currentUser.uid;
 
+  $scope.myUsername = AuthFactory.getUserName();
 
   function loadMessages() {
     //var news = AuthFactory.readData('news/');
@@ -569,6 +586,7 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
     var ref = firebase.database().ref().child('news/');
     news = $firebaseArray(ref);
 
+    console.log(news);
     ref.on('child_added', function(message) {
       var message = message.val();
       news.push(message);
@@ -583,13 +601,13 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
   loadMessages();
 
   $scope.addMsg = function() {
-   
+
     if($scope.msg.add.length > 0) {
       var postData = {
         from: AuthFactory.getUserName(),
         message: $scope.msg.add,
         datetime: new Date(),
-        photoURL: firebase.auth().currentUser.photoURL
+        photoURL: (firebase.auth().currentUser.photoURL == null ? "https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" : firebase.auth().currentUser.photoURL)
       };
 
       var newPostKey = firebase.database().ref().child('news/' + uid).push().key;
@@ -611,54 +629,81 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
 function ($scope, $stateParams, $firebaseArray, $ionicPopup, AuthFactory) {
   // var ref = firebase.database().ref().child('news/');
   // Points to the root reference
-  
+
   $scope.profile = {};
-  
-  var avatars = AuthFactory.readData('avatars/public/');
-  $scope.profile_pics = avatars;
-  
+  $scope.avatars = {};
+
+  var tempUrls = [];
+
+  var avatarLinks = AuthFactory.readData('avatars/public/').$loaded(function(data) {
+
+    for (var i = 0; i < data.length; i++) {
+      curRef = firebase.storage().ref().child('avatar').child(data[i].$id + '.png').getDownloadURL().then(function(url) {
+        tempUrls.push({ "url": url });
+
+        console.log(data.length);
+
+
+        if(tempUrls.length==data.lenth) $scope.avatars=tempUrls;
+      });
+
+    }
+  });
+
+  $scope.avatars = tempUrls; // refreshes automatically
+
   $scope.setAvatar=function(imageURL) {
-     firebase.auth().currentUser.updateProfile({
-          photoURL: imageURL,
-        }).then(function() {
-          $ionicPopup.alert({
-            title: "Erfolgreich aktualisiert",
-            template: ''
-          });
-        }, function(error) {
-          console.log("fehler beim profil updaten:", error);
-          // An error happened.
-        });
-    }).catch(function(error) {
-      $scope.error = true;
-      $scope.errorMessage = error;
-      console.log("fehler in catch", error.message);
-    });
+
+    var confirmPopup = $ionicPopup.confirm({
+       title: 'Profilbild',
+       template: 'Soll dies dein Profilbild sein?'
+     });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       firebase.auth().currentUser.updateProfile({
+         photoURL: imageURL,
+       }).then(function() {
+         console.log("name gesetzt, alles super");
+         $state.go('menu.todos');
+       }, function(error) {
+         console.log("fehler beim profil updaten:", error);
+         // An error happened.
+       });
+     }
+   });
+
+
   }
+
   $scope.changePassword = function() {
-    
+
     if($scope.profile.oldpassword != $scope.profile.newpassword) {
       $ionicPopup.alert({
         title: "Achtung",
         template: "Passwörter stimmen nicht überein"
       });
-      return;   
+      return;
     }
-                        
+
     firebase.auth().changePassword({
       email       : firebase.auth().currentUser.email,
       oldPassword : $scope.profile.oldpassword,
       newPassword : $scope.profile.newpassword
     }, function(error) {
-      if (error === null) {
-        console.log("Password changed successfully");
-      } else {
-        console.log("Error changing password:", error);
-        var alertPopup = $ionicPopup.alert({
-           title: 'Fehler',
-           template: error
-       });
-      }
-  }
-   
+        if (error === null) {
+          console.log("Password changed successfully");
+        }
+        else {
+          console.log("Error changing password:", error);
+          var alertPopup = $ionicPopup.alert({
+             title: 'Fehler',
+             template: error
+         });
+        }
+      })
+
+
+    }
+
 }])
