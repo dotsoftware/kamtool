@@ -12,14 +12,12 @@
                     <p style="margin-top:0px;">{{item.beschreibung}}</p>
                 </div>
             </div>
-            <ion-item class="item-icon-left assertive">
-               <div style="color:#000000;">
-                    <i class="icon ion-social-euro"></i>Netto: {{item.preisNetto}} .--
-                    <br>Brutto: {{item.preisBrutto}} .-- <br/>
-                    <i class="icon ion-speedometer"></i> {{item.einheit}}
-                </div>
-                
-            </ion-item>
+            
+           <div class="item item-body">
+                <i class="icon ion-social-euro"></i>Netto: {{item.preisNetto}} .--
+                <br>Brutto: {{item.preisBrutto}} .-- <br/><br/>
+                <i class="icon ion-speedometer"></i> {{item.einheit}}
+            </div>
           </div>
           <div class="spacer" style="width: 279px; height: 10px;"></div>
 
