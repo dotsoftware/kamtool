@@ -617,13 +617,31 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, AuthFactory) {
   var avatars = AuthFactory.readData('avatars/public/');
   $scope.profile_pics = avatars;
   
+  $scope.setAvatar=function(imageURL) {
+     firebase.auth().currentUser.updateProfile({
+          photoURL: imageURL,
+        }).then(function() {
+          $ionicPopup.alert({
+            title: "Erfolgreich aktualisiert",
+            template: ''
+          });
+        }, function(error) {
+          console.log("fehler beim profil updaten:", error);
+          // An error happened.
+        });
+    }).catch(function(error) {
+      $scope.error = true;
+      $scope.errorMessage = error;
+      console.log("fehler in catch", error.message);
+    });
+  }
   $scope.changePassword = function() {
     
     if($scope.profile.oldpassword != $scope.profile.newpassword) {
       $ionicPopup.alert({
         title: "Achtung",
         template: "Passwörter stimmen nicht überein"
-      }
+      });
       return;   
     }
                         
