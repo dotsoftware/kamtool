@@ -1,5 +1,16 @@
 <ion-view title="Profil bearbeiten">
     <ion-content padding="true" class="has-header">
+       <div id="profilBearbeiten-card24" class="list card">
+        <form class="list">
+          <label class="item item-input">
+            <input name="profile.password" placeholder="Passwort" type="password">
+          </label>
+          <label class="item item-input">
+            <input  name="profile.password2" placeholder="Passwort wiederholen" type="text">
+          </label>
+          <button class="button button-balanced  button-block icon-right ion-checkmark" ng-click="changePassword()">Passwort ändern</button>
+        </form>
+      </div>
 
       <ion-gallery ion-gallery-items="profile_pics" ion-item-callback="setImage(item)"></ion-gallery>
 
