@@ -583,11 +583,13 @@ function ($scope, $stateParams, $filter, $firebaseArray, $ionicScrollDelegate, A
   loadMessages();
 
   $scope.addMsg = function() {
+   
     if($scope.msg.add.length > 0) {
       var postData = {
         from: AuthFactory.getUserName(),
         message: $scope.msg.add,
-        datetime: new Date()
+        datetime: new Date(),
+        photoURL: firebase.auth().currentUser.photoURL
       };
 
       var newPostKey = firebase.database().ref().child('news/' + uid).push().key;
