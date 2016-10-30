@@ -346,7 +346,7 @@ emoji.funny{background-image: url(http://i.imgur.com/qKia58V.png);}
   to { opacity: 0.5; }
 }
 
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
     min-width: 12px;
     width: 12px;
     max-width: 12px;
@@ -355,7 +355,7 @@ emoji.funny{background-image: url(http://i.imgur.com/qKia58V.png);}
     max-height: 12px;
     background: #e5e5e5;
     box-shadow: inset 0px 50px 0px rgba(82,179,217,0.9), inset 0px -52px 0px #fafafa;
-}
+}*/
 
 ::-webkit-scrollbar-thumb {
     background: #bbb;
