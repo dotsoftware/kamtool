@@ -1,10 +1,10 @@
 angular.module('app.controllers', [])
 
 .controller('todosCtrl', ['$scope', '$stateParams', '$firebase', '$firebaseObject',
-'$firebaseArray', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+'$firebaseArray', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, AuthFactory) {
+function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, FBFactory) {
 
   var dbRef = firebase.database().ref('todos');
   var path = dbRef.root.toString();
@@ -18,7 +18,7 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
   getTodoList();
 
   function getTodoList() {
-    todoTasks = AuthFactory.readData('todos/' + uid);
+    todoTasks = FBFactory.readData('todos/' + uid);
     console.log(todoTasks);
     $scope.todos = todoTasks;
   }
@@ -48,13 +48,13 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, Auth
 
 }])
 
-.controller('transakationsanalyseCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('transakationsanalyseCtrl', ['$scope', '$stateParams', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, AuthFactory) {
+function ($scope, $stateParams, FBFactory) {
   var uid =  firebase.auth().currentUser.uid;
 
-  var ratedCustomers = AuthFactory.readData('person_analysis/' + uid);
+  var ratedCustomers = FBFactory.readData('person_analysis/' + uid);
   $scope.customers = ratedCustomers;
 }])
 
@@ -66,7 +66,7 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('detailedPersonController', ['$scope', '$stateParams', '$filter', '$firebaseObject', '$firebaseArray', 'transaktionsService', 'AuthFactory', function($scope, $stateParams, $filter, $firebaseObject, $firebaseArray, transaktionsService, AuthFactory) {
+.controller('detailedPersonController', ['$scope', '$stateParams', '$filter', '$firebaseObject', '$firebaseArray', 'transaktionsService', 'FBFactory', function($scope, $stateParams, $filter, $firebaseObject, $firebaseArray, transaktionsService, FBFactory) {
     $scope.person = $stateParams.personName;
     var uid =  firebase.auth().currentUser.uid;
 
@@ -161,10 +161,10 @@ function ($scope, $stateParams) {
   }
 })
 
-.controller('menuCtrl', ['$scope', '$stateParams', '$state', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('menuCtrl', ['$scope', '$stateParams', '$state', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $state, AuthFactory) {
+function ($scope, $stateParams, $state, FBFactory) {
   var user= firebase.auth().currentUser;
 
   $scope.KAM_NAME = firebase.auth().currentUser.displayName;
@@ -207,8 +207,8 @@ function ($scope, $stateParams) {
 }])
 
 .controller('kAMToolsAnmeldungCtrl',
-          ['$scope','$stateParams', '$state', '$http', '$location', '$firebaseAuth', '$timeout', '$ionicPopup', 'AuthFactory',
- function ($scope, $stateParams, $state, $http,  $location, $firebaseAuth, $timeout, $ionicPopup, AuthFactory) {
+          ['$scope','$stateParams', '$state', '$http', '$location', '$firebaseAuth', '$timeout', '$ionicPopup', 'FBFactory',
+ function ($scope, $stateParams, $state, $http,  $location, $firebaseAuth, $timeout, $ionicPopup, FBFactory) {
 
    var provider;
    var authData = firebase.auth();
@@ -253,12 +253,12 @@ function ($scope, $stateParams) {
            provider = new firebase.auth.GithubAuthProvider();
          }
 
-         AuthFactory.socialLogin(provider).then(function(result) {
+         FBFactory.socialLogin(provider).then(function(result) {
            console.log("erfolgreich eingeloggt!");
 
-           AuthFactory.setUserInfos(result.user);
-           AuthFactory.setUserName(firebase.auth().currentUser.providerData[0].displayName);
-           AuthFactory.setUserID(firebase.auth().currentUser.uid);
+           FBFactory.setUserInfos(result.user);
+           FBFactory.setUserName(firebase.auth().currentUser.providerData[0].displayName);
+           FBFactory.setUserID(firebase.auth().currentUser.uid);
 
           $state.go('menu.todos');
           });
@@ -273,10 +273,10 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('neuePersonBewertenCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'transaktionsService', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('neuePersonBewertenCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'transaktionsService', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $state, $ionicPopup, transaktionsService, AuthFactory) {
+function ($scope, $stateParams, $state, $ionicPopup, transaktionsService, FBFactory) {
   var KE = 0;
   var VE = 0;
   var EI = 0;
@@ -409,15 +409,15 @@ function ($scope, $stateParams, $state, $ionicPopup, transaktionsService, AuthFa
 
 }])
 
-.controller('meineDienststellenCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('meineDienststellenCtrl', ['$scope', '$stateParams', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, AuthFactory) {
+function ($scope, $stateParams, FBFactory) {
   var uid=firebase.auth().currentUser.uid;
 
   console.log(uid);
 
-  var meineDienststellen = AuthFactory.readData('dienststellen/' + uid);
+  var meineDienststellen = FBFactory.readData('dienststellen/' + uid);
   console.log(meineDienststellen);
 
   $scope.dienststellen = meineDienststellen;
@@ -425,17 +425,17 @@ function ($scope, $stateParams, AuthFactory) {
 
 }])
 
-.controller('detailedDepartmentCtrl', ['$scope', '$stateParams', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('detailedDepartmentCtrl', ['$scope', '$stateParams', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, AuthFactory) {
+function ($scope, $stateParams, FBFactory) {
 
 }])
 
-.controller('registerCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('registerCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $state, $ionicPopup, AuthFactory) {
+function ($scope, $stateParams, $state, $ionicPopup, FBFactory) {
 
   var auth = firebase.auth();
 
@@ -513,17 +513,17 @@ function ($scope, $stateParams, $firebaseArray, $state) {
 
 }])
 
-.controller('globaleNachrichtenCtrl', ['$scope', '$stateParams', '$filter', 'AuthFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('chatCtrl', ['$scope', '$stateParams', '$filter', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $filter, AuthFactory) {
+function ($scope, $stateParams, $filter, FBFactory) {
 
   $scope.msg = {};
   var uid=firebase.auth().currentUser.uid;
 
 
   function loadMessages() {
-    var news = AuthFactory.readData('news/');
+    var news = FBFactory.readData('news/');
 
     console.log(news);
     $scope.messages = news;

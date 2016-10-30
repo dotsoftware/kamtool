@@ -39,12 +39,12 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('menu.globaleNachrichten', {
+  .state('menu.chatMessages', {
     url: '/page_news',
     views: {
       'menuContent': {
-        templateUrl: 'templates/globaleNachrichten.html',
-        controller: 'globaleNachrichtenCtrl'
+        templateUrl: 'templates/chatMessages.html',
+        controller: 'chatCtrl'
       }
     }
   })

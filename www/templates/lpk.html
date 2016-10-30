@@ -4,9 +4,9 @@
   </ion-nav-buttons>
     <ion-content padding="true" class="has-header">
        <ion-list>
-         <div collection-repeat="item in lpk">
+         <div ng-repeat="item in lpk">
           <div class="list card">
-            <ion-item class="item cardHeader">LPK {{item.$id}} - {{item.name}}</ion-item>
+            <ion-item class="item card-item" style="background-color:#779ECB">LPK {{item.$id}} - {{item.name}}</ion-item>
             <div class="item item-body">
                 <div style="color:#000000;">
                     <p style="margin-top:0px;">{{item.beschreibung}}</p>

@@ -1,7 +1,7 @@
 <ion-view title="Chat Nachrichten">
     <ion-content padding="true" class="has-header">
 
-    <div style="text-align:center" ng-hide="messages.length">Keine aktuellen Nachrichten.</div>
+    <div style="text-align:center" ng-if="messages.length == 0">Keine aktuellen Nachrichten.</div>
 
     <ol class="chat" ng-repeat="message in messages">
       <li ng-if="message.from!=myUsername" class="other">
@@ -27,11 +27,12 @@
       </li>
     </ol>
 
-    <form class="list" ng-submit="addMsg()">
 
-        <label class="item item-input">
+    <form class="list" ng-submit="addMsg()">
+      <input class="textarea" type="text" ng-model="msg.add" placeholder="Schreibe eine Nachricht"/>
+      <!--  <label class="item item-input">
             <input type="text" placeholder="Schreibe eine Nachricht" ng-model="msg.add">
-        </label>
+        </label>-->
     </form>
 
     </ion-content>

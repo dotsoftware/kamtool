@@ -1,28 +1,78 @@
 angular.module('app.services', [])
 
-
-.factory('AuthFactory', ['$rootScope', '$firebaseArray', '$timeout', function($firebaseAuth, $firebaseArray, $rootScope, $timeout){
+.factory('FBFactory', ['$rootScope', '$firebaseArray', '$timeout', function($firebaseAuth, $firebaseArray, $rootScope, $timeout){
 
   var userID;
-  var acessToken;
   var auth = firebase.auth();
   var userInfo;
+  var userName;
 
   return {
-    socialLogin: function(provider) {
-      return auth.signInWithPopup(provider);
+
+    onLoggedIn: function() {
+
+      var promise = new Promise(function(resolve, reject) {
+
+        firebase.auth().onAuthStateChanged(function(authData) {
+
+          if (authData.displayName.length >0) {
+            userID = authData.uid;
+            userName = authData.displayName;
+            userInfo = authData;
+
+            resolve("Login successful");
+          }
+          else {
+            reject(Error("Login Failed"));
+          }
+        });
+
+      });
+
+      return promise;
+
+    },
+
+    addTodo: function(what, when) {
+      var postData = {
+        uid: firebase.auth().currentUser.uid,
+        todo: what,
+        todoDate: when,
+        done: false
+      };
+
+
+      var newPostKey = firebase.database().ref().child('todos/' + userID).push().key;
+
+      var updates = {};
+      updates['/todos/' + userID + '/' + newPostKey] = postData;
+
+      return firebase.database().ref().update(updates);
+    },
+
+    addChatMsg: function(what) {
+      var postData = {
+        from: userInfo.displayName,
+        message: what,
+        datetime: new Date(),
+        photoURL: (userInfo.photoURL == null ? "https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" : userInfo.photoURL)
+      };
+
+      var newPostKey = firebase.database().ref().child('news/' + userID).push().key;
+
+      var updates = {};
+      updates['/news/' + newPostKey] = postData;
+
+      return firebase.database().ref().update(updates); //Promise
+    },
+
+    setUser: function(authData) {
+      userInfo = authData.currentUser;
     },
 
     readData: function(table) {
-      //console.log("user id:" + firebase.auth().currentUser.uid);
-
       var userPostsRef = firebase.database().ref().child(table);
-      console.log($firebaseArray(userPostsRef));
       return $firebaseArray(userPostsRef);
-    },
-
-    getToken: function() {
-      return accessToken;
     },
 
     getUserID: function() {
@@ -186,7 +236,6 @@ angular.module('app.services', [])
 
     var temp = JSON.parse(localStorage.getItem(SETTINGS_PERSONS_KEY));
 
-    console.log("info getallpersons inhalt. " + temp);
     if (temp == null) return [];
     else return temp;
 
@@ -198,9 +247,7 @@ angular.module('app.services', [])
 
     var found = $filter('filter')(temp, {personName: value}, true);
 
-    console.log("info getperson: " + found);
 
-//    if(found == null) return -1; // nicht vorhanden
 
      if (found != null && found[0] !== undefined) {
         console.log("info: GEBE ZURÜCK:" + found[0]);

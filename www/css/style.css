@@ -1,22 +1,30 @@
 /* Empty. Add your own CSS if you like */
 .custom {
-  background-color: #3f4041 !important; /* This sets the background color*/
+  background-color: #333 !important; /* This sets the background color*/
+  top:0px !important;
  }
 
 /*Set the background to transparent for ion-item*/
 .custom .item {
-  background-color: transparent;
-  border:none;   /*Removes all borders*/
+  background-color: #333;
+  border:#564545;
   border-top: 1px solid;   /*Top Border for each menu item*/
   border-bottom:2px solid;   /*Bottom border for each menu item*/
-  border-color: #666;   /*Sets colors for top and bottom border*/
-  color: white;    /*Text color for each item*/
+  border-color: transparent;   /*Sets colors for top and bottom border*/
+  color:#fff !important; /* text color for each item */
+
 }
 
+.custom .head {
+  background-color: #6E6E6E;
+  border-bottom: 1px solid #ffffff;
+  color:#fff !important;
+}
 /*Changes the border for the last item*/
 .custom .item:last-child {
   border-bottom: 1px solid #666;
 }
+
 
 .custom .item-complex .item-content, .dark .item-radio .item-content {
   background-color: transparent;
@@ -90,7 +98,7 @@
 }
 
 // chats
-.menu {
+/*.menu {
     position: fixed;
     top: 0px;
     left: 0px;
@@ -103,7 +111,7 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-}
+}*/
 
 .back {
     position: absolute;
@@ -376,9 +384,9 @@ emoji.funny{background-image: url(http://i.imgur.com/qKia58V.png);}
 
 input.textarea {
     position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    bottom: 3px;
+    left: 3px;
+    right: 3px;
     width: 100%;
     height: 50px;
     z-index: 99;

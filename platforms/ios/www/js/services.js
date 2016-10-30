@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
 
-.factory('AuthFactory', ['$rootScope', '$firebaseArray', function($firebaseAuth, $firebaseArray, $rootScope){
+.factory('FBFactory', ['$rootScope', '$firebaseArray', function($firebaseAuth, $firebaseArray, $rootScope){
 
   var userID;
   var acessToken;

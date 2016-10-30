@@ -8,13 +8,17 @@
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
+
     <ion-side-menu side="left" id="menuContent">
-        <ion-content padding="false" style="top:0px !important;" class="custom">
-            <div class="spacer" style="width: 251.2px; height: 30px;"></div>
+        <ion-content padding="false" class="custom">
+
             <ion-list>
-              <ion-item class="item item-avatar" ui-sref="menu.editprofile" menu-close="">
+              <ion-item class="item-icon-right dark">
+                <i class="icon ion-bug"></i>BETA-Version
+              </ion-item>
+              <ion-item class="item item-avatar head" ui-sref="menu.editprofile" menu-close="">
                   <img src="{{PROFILE_PIC}}" />
-                  Eingeloggt als<br/>{{KAM_NAME}}
+                  <p style="color:#fff">Eingeloggt als<br/>{{KAM_NAME}}</p>
               </ion-item>
 
                 <ion-item class="item-icon-left dark" ui-sref="menu.todos" menu-close="">
@@ -23,8 +27,8 @@
                     <i class="icon ion-ios-person"></i>Transaktionsanalyse</ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.meineDienststellen" menu-close="">
                     <i class="icon ion-briefcase"></i>Meine Dienststellen</ion-item>
-                <ion-item class="item-icon-left" ui-sref="menu.globaleNachrichten" menu-close="">
-                    <i class="icon ion-social-rss"></i>Globale Nachrichten</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.chatMessages" menu-close="">
+                    <i class="icon ion-chatbubbles"></i>Chat</ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.lPK" menu-close="">
                     <i class="icon ion-ios-paper"></i>LPK</ion-item>
                 <ion-item class="item-icon-left" ng-click="logout()" menu-close="">
