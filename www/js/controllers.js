@@ -102,11 +102,9 @@ function ($scope, $stateParams, $ionicPopup,$state, $location, FBFactory) {
 }])
 
 .controller('detailedPersonController', ['$scope', '$stateParams', '$filter', '$firebaseObject', '$firebaseArray', 'transaktionsService', 'FBFactory', function($scope, $stateParams, $filter, $firebaseObject, $firebaseArray, transaktionsService, FBFactory) {
-    $scope.person = $stateParams.personName;
-    var uid =  firebase.auth().currentUser.uid;
 
-    //var personStats = transaktionsService.getPerson($stateParams.personName);
-    var analysisRef = firebase.database().ref().child("person_analysis/" + uid + '/' + $stateParams.personName);
+  FBFactory.onLoggedIn().then(function(a) {
+    var analysisRef = firebase.database().ref().child("person_analysis/" + FBFactory.getUserID() + '/' + $stateParams.personName);
     var ratedPerson = $firebaseArray(analysisRef);
 
     ratedPerson.$loaded().then(function() {
@@ -125,7 +123,7 @@ function ($scope, $stateParams, $ionicPopup,$state, $location, FBFactory) {
 
     })
 
-    var myselfRef = firebase.database().ref().child("person_analysis/" + uid + "/ICH");
+    var myselfRef = firebase.database().ref().child("person_analysis/" + FBFactory.getUserID() + "/ICH");
     var myself = $firebaseArray(myselfRef);
 
     myself.$loaded().then(function() {
@@ -147,7 +145,7 @@ function ($scope, $stateParams, $ionicPopup,$state, $location, FBFactory) {
         spiderData.push($scope.data);
         spiderData.push($scope.data_self);
 
-      
+
         //$scope.spiderColors = ['#0062F1', '#ff1e1e'];
         $scope.data_spidernet = spiderData;
       }
@@ -155,6 +153,15 @@ function ($scope, $stateParams, $ionicPopup,$state, $location, FBFactory) {
         $scope.myselfNotSet = true;
       }
     })
+
+    $scope.person = $stateParams.personName;
+
+  });
+
+
+
+    //var personStats = transaktionsService.getPerson($stateParams.personName);
+
 }])
 
 
