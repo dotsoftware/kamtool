@@ -90,6 +90,7 @@ angular.module('app.routes', [])
 
   .state('neuePersonBewerten', {
     url: '/page_add_transaction',
+    cache: false,
     templateUrl: 'templates/neuePersonBewerten.html',
     controller: 'neuePersonBewertenCtrl'
   })
