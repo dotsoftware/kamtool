@@ -51,6 +51,7 @@ angular.module('app.routes', [])
 
   .state('menu.chatMessages', {
     url: '/page_news',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/chatMessages.html',
