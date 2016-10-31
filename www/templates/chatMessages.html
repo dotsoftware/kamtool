@@ -27,8 +27,9 @@
       </li>
     </ol>
 
-
-    <input class="textarea" type="text" ng-model="add.msg" ng-enter="addMsg()" placeholder="Schreibe eine Nachricht"/>
+    <form ng-submit="addMsg()">
+     <input class="textarea" type="text" ng-model="add.msg" placeholder="Schreibe eine Nachricht"/>
+      </form>
 
     </ion-content>
 </ion-view>
