@@ -4,20 +4,23 @@
   </ion-nav-buttons>
     <ion-content padding="true" class="has-header">
 
-      <ion-list show-delete="false" can-swipe="true">
-          <ion-item class="item-remove-animate" ng-repeat="item in todos" item="item" menu-close="">
-              <div ng-if="item.done">
-                <del>{{item.todo}}<br/>
+      <div class="card list">
+        <ion-list show-delete="false" can-swipe="true">
+            <ion-item class="fadeInLeft-item item-remove-animate" ng-repeat="item in todos" item="item" menu-close="">
+                <div ng-if="item.done">
+                  <del>{{item.todo}}<br/>
+                    {{item.todoDate}}</del>
+                </div>
+                <div ng-if="!item.done">
+                  {{item.todo}}<br/>
                   {{item.todoDate}}</del>
-              </div>
-              <div ng-if="!item.done">
-                {{item.todo}}<br/>
-                {{item.todoDate}}</del>
-              </div>
-              <ion-option-button ng-click="item.done=true;todos.$save(item);" ng-if="!item.done" class="button-light icon ion-checkmark-round" menu-close=""></ion-option-button>
-              <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
-          </ion-item>
-      </ion-list>
+                </div>
+                <ion-option-button ng-click="item.done=true;todos.$save(item);" ng-if="!item.done" class="button-light icon ion-checkmark-round" menu-close=""></ion-option-button>
+                <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
+            </ion-item>
+        </ion-list>
+
+    </div>
 
       <div style="text-align:center" ng-if="todos.length < 1">Keine Todos</div>
     </ion-content>

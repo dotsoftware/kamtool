@@ -1,4 +1,7 @@
-angular.module('app.services', [])
+
+angular.module('app.services', ['ngResource'])
+
+//.factory('Weather', 'forecastioWeather')
 
 .factory('FBFactory', ['$rootScope', '$firebaseArray', '$timeout', function($firebaseAuth, $firebaseArray, $rootScope, $timeout){
 

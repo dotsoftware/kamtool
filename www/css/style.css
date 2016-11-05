@@ -97,6 +97,51 @@
   font-weight: bold;
 }
 
+.bounceIn-item.ng-enter {
+  -webkit-animation: fadeInDown 0.5s;
+  animation: fadeInDown 0.5s;
+}
+
+
+.fadeInLeft-item.ng-enter {
+    -webkit-animation: fadeInLeft 0.5s;
+    animation: fadeInLeft 0.5s;
+}
+
+.fadeInRight-item.ng-enter {
+    -webkit-animation: fadeInRight 0.5s;
+    animation: fadeInRight 0.5s;
+}
+
+
+.bounceIn-item.ng-enter-stagger {
+  -webkit-animation-delay:100ms;
+  animation-delay:100ms;
+
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}
+
+
+.fadeInLeft-item.ng-enter-stagger {
+  -webkit-animation-delay:100ms;
+  animation-delay:100ms;
+
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}
+
+.fadeInRight-item.ng-enter-stagger {
+  -webkit-animation-delay:100ms;
+  animation-delay:100ms;
+
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}
+
 // chats
 /*.menu {
     position: fixed;
@@ -224,6 +269,8 @@
     order: 1;
     border-top-left-radius: 0px;
     box-shadow: -1px 2px 0px #D4D4D4;
+    -webkit-animation: fadeInLeft 0.5s;
+    animation: fadeInLeft 0.5s;
 }
 .other:before {
     content: "";
@@ -246,6 +293,8 @@
     order: 1;
     border-bottom-right-radius: 0px;
     box-shadow: 1px 2px 0px #D4D4D4;
+    -webkit-animation: fadeInRight 0.5s;
+    animation: fadeInRight 0.5s;
 }
 .self .avatar {
     order: 2;

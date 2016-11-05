@@ -10,10 +10,12 @@
     </ion-side-menu-content>
 
     <ion-side-menu side="left" id="menuContent">
+
+
         <ion-content padding="false" class="custom">
 
             <ion-list>
-              <ion-item class="item-icon-right dark">
+              <ion-item class="item-icon-right light">
                 <i class="icon ion-bug"></i>BETA-Version
               </ion-item>
               <ion-item class="item item-avatar head" ui-sref="menu.editprofile" menu-close="">
@@ -21,7 +23,9 @@
                   <p style="color:#fff">Eingeloggt als<br/>{{KAM_NAME}}</p>
               </ion-item>
 
-                <ion-item class="item-icon-left dark" ui-sref="menu.todos" menu-close="">
+                <ion-item class="item-icon-left light" ui-sref="menu.dashboard" menu-close="">
+                    <i class="icon ion-happy"></i>Startseite</ion-item>
+                <ion-item class="item-icon-left light" ui-sref="menu.todos" menu-close="">
                     <i class="icon ion-ios-lightbulb-outline"></i>Aufgabenverwaltung</ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.transakationsanalyse" menu-close="">
                     <i class="icon ion-ios-person"></i>Transaktionsanalyse</ion-item>

@@ -10,6 +10,7 @@ angular.module('app.routes', [])
 
     .state('menu.todos', {
     url: '/page_todos',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/todos.html',
@@ -17,6 +18,16 @@ angular.module('app.routes', [])
       }
     }
   })
+
+  .state('menu.dashboard', {
+  url: '/page_dashboard',
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/dashboard.html',
+      controller: 'dashboardCtrl'
+    }
+  }
+})
 
   .state('menu.editprofile', {
   url: '/page_editprofile',
@@ -45,6 +56,17 @@ angular.module('app.routes', [])
       'menuContent': {
         templateUrl: 'templates/detailedPersonAnalysis.html',
         controller: 'detailedPersonController'
+      }
+    }
+  })
+
+  .state('menu.transactionHelp', {
+    url: '/page_transactionHelp/:help',
+
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/transactionHelp.html'/*,
+        controller: 'detailedPersonController'*/
       }
     }
   })
@@ -119,6 +141,7 @@ angular.module('app.routes', [])
   })
 
   .state('newTodo', {
+    cache: false,
     url: '/page_add_todo',
     templateUrl: 'templates/newTodo.html',
     controller: 'newTodoCtrl'

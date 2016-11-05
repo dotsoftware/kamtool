@@ -4,7 +4,7 @@
     <div style="text-align:center" ng-if="messages.length == 0">Keine aktuellen Nachrichten.</div>
 
     <ol class="chat" ng-repeat="message in messages">
-      <li ng-if="message.from!=myUsername" class="other">
+      <li ng-if="message.from!=myUsername" class="fadeInRight-item other">
           <div class="avatar">
             <img ng-src="{{message.photoURL}}" err-src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" draggable="false"/>
           </div>
@@ -15,7 +15,7 @@
           </div>
       </li>
 
-      <li ng-if="message.from==myUsername" class="self">
+      <li ng-if="message.from==myUsername" class="fadeInLeft-item item-remove-animate self">
           <div class="avatar">
             <img ng-src="{{message.photoURL}}" err-src="https://cdn4.iconfinder.com/data/icons/avatars-gray/500/avatar-12-256.png" draggable="false"/>
           </div>

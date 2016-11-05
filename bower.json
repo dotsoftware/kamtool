@@ -8,7 +8,10 @@
     "Martin <der.marty@gmail.com>"
   ],
   "description": "",
-  "main": "",
+  "main": [
+    "ion-md-input.js",
+    "css/ion-md-input.css"
+    ],
   "license": "MIT",
   "homepage": "",
   "ignore": [

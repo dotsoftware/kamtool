@@ -1,5 +1,73 @@
 angular.module('app.controllers', [])
 
+.controller('dashboardCtrl', ['$scope', '$stateParams', '$http', '$firebase', '$firebaseObject',
+'$firebaseArray',  '$resource', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $http, $firebase, $firebaseObject, $firebaseArray, $resource, FBFactory) {
+
+  var url = "https://api.darksky.net/forecast/75042eae738f6f44352bf662c1d1cd8a/48.249026,16.432706?callback=JSON_CALLBACK&units=si&lang=de";
+  var imgURL = "https://api.imgur.com/3/gallery/hot/viral/0.json";
+  var randomNumber;
+  var tempPic;
+  var imgurArray;
+
+  FBFactory.onLoggedIn().then(function(a) {
+    var todoCount = FBFactory.readData('todos/');
+    console.log(todoCount);
+    $scope.todoCount = todoCount.length;
+
+    var personsRated = FBFactory.readData('person_analysis/');
+    $scope.personsRated = personsRated.length;
+    console.log(personsRated);
+
+
+    $http.jsonp(url)
+    .success(function(data){
+      $scope.forecastHeader = data.currently.summary;
+      $scope.forecastText = data.hourly.summary;
+      $scope.currentTemperature = data.currently.temperature;
+      $scope.image = data.currently.icon;
+
+    });
+
+    getHotImage(0);
+
+
+  });
+
+  $scope.refreshPost = function() {
+    currentImageCounter++;
+    getHotImage();
+  }
+
+  $scope.getNewPic = function() {
+    setRandomPic();
+  }
+  function setRandomPic() {
+    randomNumber = Math.floor((Math.random() * 59) + 1);
+    tempPic = imgurArray[randomNumber].cover;
+
+    console.log("http://i.imgur.com/" + tempPic + ".jpg");
+
+    if(tempPic == null || imgurArray[randomNumber].nsfw) {
+      setRandomPic();
+    }
+    else {
+      $scope.randomImage = "http://i.imgur.com/" + tempPic + ".jpg";
+      $scope.picDescription = imgurArray[randomNumber].title;
+    }
+  }
+  function getHotImage() {
+    $http.get(imgURL)
+    .success(function(data){
+      imgurArray = data.data;
+      setRandomPic();
+    });
+  }
+
+}])
+
 .controller('todosCtrl', ['$scope', '$stateParams', '$firebase', '$firebaseObject',
 '$firebaseArray', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
@@ -59,10 +127,10 @@ function ($scope, $stateParams, $state, FBFactory) {
 
 }])
 
-.controller('transaktionsanalyseCtrl', ['$scope', '$stateParams', '$ionicPopup', '$state', '$location', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('transaktionsanalyseCtrl', ['$scope', '$stateParams', '$ionicPopup', '$state', '$ionicModal', '$location', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicPopup,$state, $location, FBFactory) {
+function ($scope, $stateParams, $ionicPopup,$state, $ionicModal, $location, FBFactory) {
   var ratedCustomers;
 
   FBFactory.onLoggedIn().then(function(a) {
@@ -252,7 +320,7 @@ function ($scope, $stateParams, $ionicFilterBar, FBFactory) {
 
    firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      $state.go('menu.todos');
+      $state.go('menu.dashboard');
     } else {
       // No user is signed in.
     }
@@ -647,7 +715,7 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
 
   $scope.changePassword = function() {
 
-    if($scope.profile.oldpassword != $scope.profile.newpassword) {
+    if($scope.profile.newpassword != $scope.profile.newpassword2) {
       $ionicPopup.alert({
         title: "Achtung",
         template: "Passwörter stimmen nicht überein"
@@ -655,7 +723,22 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
       return;
     }
 
-    firebase.auth().changePassword({
+    console.log($scope.profile.newpassword);
+
+    firebase.auth().currentUser.updatePassword($scope.profile.newpassword).then(function() {
+      $ionicPopup.alert({
+        title: "Erfolg",
+        template: "Passwort geändert - bitte neu einloggen"
+      });
+
+    }).catch(function(error) {
+      $ionicPopup.alert({
+        title: "Fehler",
+        template: error
+      });
+    });
+
+    /*firebase.auth().changePassword({
       email       : firebase.auth().currentUser.email,
       oldPassword : $scope.profile.oldpassword,
       newPassword : $scope.profile.newpassword
@@ -670,7 +753,7 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
              template: error
          });
         }
-      })
+      })*/
 
 
     }
