@@ -91,6 +91,22 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, FBFa
     $scope.todos = todoTasks;
   }
 
+  $scope.trim = function(text) {
+    return text.replace(/\n/g, '<br>');
+  };
+
+  $scope.toggleItem= function(item) {
+   if ($scope.isItemShown(item)) {
+     $scope.shownItem = null;
+   } else {
+     $scope.shownItem = item;
+   }
+ };
+
+   $scope.isItemShown = function(item) {
+     return $scope.shownItem === item;
+   };
+
   $scope.deleteTodo = function(item) {
     console.log("bin in delete");
     todoTasks.$remove(item).then(function(ref) {
@@ -111,8 +127,13 @@ function ($scope, $stateParams, $firebase, $firebaseObject, $firebaseArray, FBFa
 function ($scope, $stateParams, $state, FBFactory) {
   $scope.newTodo = {};
 
+  var todoNote;
+
   $scope.addTodo = function() {
-    FBFactory.addTodo($scope.newTodo.text, $scope.newTodo.date).then(function(result) {
+    if($scope.newTodo.notes != null) todoNote = $scope.newTodo.notes;
+    else todoNote = "";
+
+    FBFactory.addTodo($scope.newTodo.text, $scope.newTodo.date,todoNote).then(function(result) {
       // done
     }).catch(function(error) {
       var alertPopup = $ionicPopup.alert({
@@ -737,25 +758,6 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
         template: error
       });
     });
-
-    /*firebase.auth().changePassword({
-      email       : firebase.auth().currentUser.email,
-      oldPassword : $scope.profile.oldpassword,
-      newPassword : $scope.profile.newpassword
-    }, function(error) {
-        if (error === null) {
-          console.log("Password changed successfully");
-        }
-        else {
-          console.log("Error changing password:", error);
-          var alertPopup = $ionicPopup.alert({
-             title: 'Fehler',
-             template: error
-         });
-        }
-      })*/
-
-
     }
 
 }])

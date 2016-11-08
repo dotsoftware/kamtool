@@ -36,11 +36,12 @@ angular.module('app.services', ['ngResource'])
 
     },
 
-    addTodo: function(what, when) {
+    addTodo: function(what, when, notes) {
       var postData = {
-        uid: firebase.auth().currentUser.uid,
+        //uid: firebase.auth().currentUser.uid,
         todo: what,
         todoDate: when,
+        todoNote: notes,
         done: false
       };
 

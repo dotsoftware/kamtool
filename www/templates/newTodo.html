@@ -10,6 +10,9 @@
                 <label class="item item-input">
                     <input type="text" placeholder="Fällig am" ng-model="newTodo.date">
                 </label>
+                <label class="item item-input">
+                    <textarea style="height:100px" placeholder="Notizen (optional)" ng-model="newTodo.notes"></textarea>
+                </label>
                 <div class="spacer" style="width: 279px; height: 28px;"></div>
                 <button ng-click="addTodo()" class="button button-balanced  button-block">Hinzufügen</button>
             </form>
