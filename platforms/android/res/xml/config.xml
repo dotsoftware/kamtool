@@ -25,7 +25,7 @@
         <param name="android-package" value="io.ionic.keyboard.IonicKeyboard" />
         <param name="onload" value="true" />
     </feature>
-    <name>firetest</name>
+    <name>KAM-Organizer</name>
     <description>
         Der praktische Organizer für erfolgreiche KAMs.
     </description>
