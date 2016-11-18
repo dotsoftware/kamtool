@@ -1,0 +1,43 @@
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-positive">
+            <ion-nav-back-button></ion-nav-back-button>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menu"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left" id="menu">
+
+
+        <ion-content padding="false" class="custom">
+
+            <ion-list>
+              <ion-item class="item-icon-right light">
+                <i class="icon ion-bug"></i>BETA-Version
+              </ion-item>
+              <ion-item class="item item-avatar head" ui-sref="menu.editprofile" menu-close="">
+                  <img src="{{PROFILE_PIC}}" />
+                  <p style="color:#fff">Eingeloggt als<br/>{{KAM_NAME}}</p>
+              </ion-item>
+
+                <ion-item class="item-icon-left light" ui-sref="menu.dashboard" menu-close="">
+                    <i class="icon ion-happy"></i>Startseite</ion-item>
+                <ion-item class="item-icon-left light" ui-sref="menu.todos" menu-close="">
+                    <i class="icon ion-ios-lightbulb-outline"></i>Aufgabenverwaltung</ion-item>
+                <ion-item class="item-icon-left light" ui-sref="menu.protocols" menu-close="">
+                    <i class="icon ion-document-text"></i>Protokolle</i></ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.transakationsanalyse" menu-close="">
+                    <i class="icon ion-ios-person"></i>Transaktionsanalyse</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.chatMessages" menu-close="">
+                    <i class="icon ion-chatbubbles"></i>Chat</ion-item>
+                <ion-item class="item-icon-left" ui-sref="menu.lPK" menu-close="">
+                    <i class="icon ion-ios-paper"></i>LPK</ion-item>
+                <ion-item class="item-icon-left" ng-click="logout()" menu-close="">
+                  <i class="icon ion-log-out"></i>Ausloggen</ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

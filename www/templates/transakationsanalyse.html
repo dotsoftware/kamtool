@@ -9,7 +9,7 @@
 
     <div class="card list">
       <ion-list show-delete="false" can-swipe="true">
-          <ion-item ng-click="goTo(item.personName)" ng-if="item.personName != 'ICH'" class="fadeInLeft-item item-remove-animate" ng-repeat="item in customers" item="item">
+          <ion-item  ng-click="goTo(item.personName)" ng-if="item.personName != 'ICH'" class="fadeInLeft-item item-remove-animate" ng-repeat="item in customers" item="item">
             {{item.personName}}
             <ion-option-button ng-click="deletePerson(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
           </ion-item>

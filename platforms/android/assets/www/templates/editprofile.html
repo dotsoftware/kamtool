@@ -1,0 +1,38 @@
+<ion-view title="Profil bearbeiten">
+    <ion-content padding="true" class="has-header">
+       <div class="list card">
+         <ion-item class="item card-item positive">Passwort ändern</ion-item>
+
+        <form class="list">
+          <!-- <label class="item item-input">
+            <input ng-model="profile.oldpassword" placeholder="Altes Passwort" type="password">
+          </label>-->
+          <label class="item item-input">
+            <input ng-model="profile.newpassword" placeholder="Neues Passwort" type="password">
+          </label>
+          <label class="item item-input">
+            <input ng-model="profile.newpassword2" placeholder="Passwort wiederholen" type="password">
+          </label>
+          <button class="button button-balanced  button-block icon-right ion-checkmark" ng-click="changePassword()">Passwort ändern</button>
+        </form>
+      </div>
+
+    <div class="list card">
+      <ion-item class="item card-item">Profilbild wählen</ion-item>
+      <div class="row" ng-repeat="image in avatars" ng-if="$index % 4 === 0">
+            <div class="col col-25" ng-if="$index < avatars.length">
+                <img ng-click="setAvatar(avatars[$index].url)") ng-src="{{avatars[$index].url}}" width="100%" />
+            </div>
+            <div class="col col-25" ng-if="$index + 1 < avatars.length">
+                <img ng-click="setAvatar(avatars[$index + 2].url)" ng-src="{{avatars[$index + 1].url}}" width="100%" />
+            </div>
+            <div class="col col-25" ng-if="$index + 2 < avatars.length">
+                <img ng-click="setAvatar(avatars[$index + 2].url)" ng-src="{{avatars[$index + 2].url}}" width="100%" />
+            </div>
+            <div class="col col-25" ng-if="$index + 3 < avatars.length">
+                <img ng-click="setAvatar(avatars[$index + 3].url)" ng-src="{{avatars[$index + 3].url}}" width="100%" />
+            </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>

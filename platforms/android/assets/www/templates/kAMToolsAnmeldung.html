@@ -1,0 +1,40 @@
+<ion-view view-title="KAM - ANMELDUNG" >
+    <ion-content padding="true" class="has-header">
+
+      <!--<div class="list">
+       <ion-md-input placeholder="Name"  hightlight-color="assertive" type="text"></ion-md-input>
+
+       <ion-md-input placeholder="Email" hightlight-color="dark" type="email"></ion-md-input>
+
+       <ion-md-input placeholder="Password" style="background-color:transparent" hightlight-color="energized" type="password"></ion-md-input>
+
+     </div>-->
+
+
+       <form class="list card">
+        <ion-list>
+            <label class="item item-input">
+              <input type="text" placeholder="E-Mail" ng-model="loginData.email">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Passwort" ng-model="loginData.password">
+            </label>
+
+            <ion-item class="item">
+              <button ng-click="login('credentials')" class="button button-balanced  button-block">Anmelden</button>
+            </ion-item>
+            <a ui-sref="register" class="button button-positive  button-block button-clear">oder erstelle einen Account</a>
+
+        </ion-list>
+
+
+      </form>
+
+
+            <!--<button class="button button-assertive icon ion-social-google" ng-click="login('google')"></button>
+            <button class="button button-positive icon ion-social-facebook" ng-click="login('facebook')"></button>
+            <button class="button button-positive icon ion-social-twitter" ng-click="login('twitter')"></button>
+            <button class="button button-royal icon ion-social-github" ng-click="login('github')"></button>-->
+
+    </ion-content>
+</ion-view>

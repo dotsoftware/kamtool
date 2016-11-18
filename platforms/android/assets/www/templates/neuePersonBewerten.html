@@ -1,0 +1,29 @@
+<ion-view view-title="Neues Profil">
+  <ion-nav-buttons side="secondary">
+    <label>{{checkedItems}}</label>
+    <button class="button button-icon button-clear ion-checkmark-round" ng-click="showResult()"></button>
+  </ion-nav-buttons>
+  <ion-content style="background-color:#eeeeee">
+
+    <div class="card list">
+      <div class="item card-item" style="background-color:#779ECB">
+        Name des Kunden
+      </div>
+      <div class="item item-input">
+          <input type="text" ng-model="person.name" placeholder="Name..." {{enableddisabled}}>
+      </div>
+      <div class="item item-input">
+        <ion-checkbox ng-model="binIchSelbst.checked" ng-change="checkSelf()">
+          <label style="padding-left:30px;">Eigene Bewertung</label>
+        </ion-checkbox>
+      </div>
+    </div>
+
+    <ion-list>
+      <div class="card list">
+        <ion-checkbox ng-change="updateItemCount($index)" ng-model="selected[item.schlagwort]" ng-repeat="item in fragen">{{item.schlagwort}}</ion-checkbox>
+      </div>
+    </ion-list>
+    <!--<button class="button button-positive button-block" ng-click="showResult()">Fertig!</button>-->
+  </ion-content>
+</ion-view>

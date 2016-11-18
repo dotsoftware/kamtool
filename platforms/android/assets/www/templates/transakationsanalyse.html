@@ -1,0 +1,23 @@
+<ion-view view-title="Kundenprofile" cache-view="false">
+  <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-plus-round" ui-sref="neuePersonBewerten"></button>
+      <button class="button button-icon button-clear ion-help" ui-sref="menu.transactionHelp"></button>
+
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <div class="card list">
+      <ion-list show-delete="false" can-swipe="true">
+          <ion-item ng-click="goTo(item.personName)" ng-if="item.personName != 'ICH'" class="fadeInLeft-item item-remove-animate" ng-repeat="item in customers" item="item">
+            {{item.personName}}
+            <ion-option-button ng-click="deletePerson(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
+          </ion-item>
+      </ion-list>
+    </div>
+
+    <p style="text-align:center">Nach links wischen, um zu löschen</p>
+    <div style="text-align:center" ng-hide="customers.length ">Noch keine Bewertungen.</div>
+
+  </ion-content>
+</ion-view>

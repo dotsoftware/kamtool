@@ -1,0 +1,25 @@
+<ion-view title="KAM Tools - Anmeldung">
+    <ion-content padding="true" class="has-header">
+        <form class="list">
+            <div class="spacer" style="width: 279px; height: 33px;"></div>
+            <ion-list>
+              <label class="item item-input">
+                <input type="text" placeholder="Voller Name" ng-model="register.fullname">
+              </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="E-Mail" ng-model="register.email">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Passwort" ng-model="register.password">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Passwort wiederholen" ng-model="register.validatepass">
+                </label>
+            </ion-list>
+            <div class="spacer" style="height: 40px;"></div>
+            <button ng-click="register()" class="button button-balanced  button-block">Anmelden</button>
+
+            <div class="item" ng-if="error == true">Fehler: {{errorMessage}}</div>
+        </form>
+    </ion-content>
+</ion-view>

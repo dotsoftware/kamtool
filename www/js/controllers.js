@@ -166,7 +166,8 @@ function ($scope, $stateParams, $ionicPopup,$state, $ionicModal, $location, FBFa
   });
 
   $scope.goTo=function(where) {
-    $location.url('/menuContent/page_detailed_person/' + where);
+    $location.url('/menu/page_detailed_person/' + where);
+    //$state.go('menu.detailedPerson/' +where);
   }
 
   $scope.deletePerson = function (item) {
@@ -728,7 +729,7 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
           $scope.$apply(function() {
             $scope.avatars.push({"url" : url});
           });
-          
+
         });
 
       }

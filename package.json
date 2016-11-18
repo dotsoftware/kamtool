@@ -1,7 +1,7 @@
 {
-  "name": "kamtool",
+  "name": "KAM-Tool",
   "version": "1.1.1",
-  "description": "firetest: An Ionic project",
+  "description": "Ein Organizer für erfolgreiche Key Account Manager",
   "engines": {
     "node": "4.2.4"
   },
