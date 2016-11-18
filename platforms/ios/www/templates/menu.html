@@ -8,23 +8,31 @@
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
+
     <ion-side-menu side="left" id="menuContent">
-        <ion-content padding="false" style="top:0px !important;" class="side-menu-left ">
-            <div class="spacer" style="width: 251.2px; height: 30px;"></div>
+
+
+        <ion-content padding="false" class="custom">
+
             <ion-list>
-                <ion-item class="item-avatar">
-                    <h2>Eingeloggt als</h2>
-                    <img src="{{PROFILE_PIC}}" />
-                    <p>{{KAM_NAME}}</p>
-                </ion-item>
-                <ion-item class="item-icon-left dark" ui-sref="menu.todos" menu-close="">
+              <ion-item class="item-icon-right light">
+                <i class="icon ion-bug"></i>BETA-Version
+              </ion-item>
+              <ion-item class="item item-avatar head" ui-sref="menu.editprofile" menu-close="">
+                  <img src="{{PROFILE_PIC}}" />
+                  <p style="color:#fff">Eingeloggt als<br/>{{KAM_NAME}}</p>
+              </ion-item>
+
+                <ion-item class="item-icon-left light" ui-sref="menu.dashboard" menu-close="">
+                    <i class="icon ion-happy"></i>Startseite</ion-item>
+                <ion-item class="item-icon-left light" ui-sref="menu.todos" menu-close="">
                     <i class="icon ion-ios-lightbulb-outline"></i>Aufgabenverwaltung</ion-item>
+                <ion-item class="item-icon-left light" ui-sref="menu.protocols" menu-close="">
+                    <i class="icon ion-document-text"></i>Protokolle</i></ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.transakationsanalyse" menu-close="">
                     <i class="icon ion-ios-person"></i>Transaktionsanalyse</ion-item>
-                <ion-item class="item-icon-left" ui-sref="menu.meineDienststellen" menu-close="">
-                    <i class="icon ion-briefcase"></i>Meine Dienststellen</ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.chatMessages" menu-close="">
-                    <i class="icon ion-social-rss"></i>Globale Nachrichten</ion-item>
+                    <i class="icon ion-chatbubbles"></i>Chat</ion-item>
                 <ion-item class="item-icon-left" ui-sref="menu.lPK" menu-close="">
                     <i class="icon ion-ios-paper"></i>LPK</ion-item>
                 <ion-item class="item-icon-left" ng-click="logout()" menu-close="">

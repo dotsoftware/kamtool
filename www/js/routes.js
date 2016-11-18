@@ -12,7 +12,7 @@ angular.module('app.routes', [])
     url: '/page_todos',
     cache: false,
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/todos.html',
         controller: 'todosCtrl'
       }
@@ -23,7 +23,7 @@ angular.module('app.routes', [])
     cache: false,
     url: '/page_add_todo',
     views: {
-      'menuContent': {
+      'menu': {
       templateUrl: 'templates/newTodo.html',
       controller: 'newTodoCtrl'
     }
@@ -33,7 +33,7 @@ angular.module('app.routes', [])
   .state('menu.dashboard', {
   url: '/page_dashboard',
   views: {
-    'menuContent': {
+    'menu': {
       templateUrl: 'templates/dashboard.html',
       controller: 'dashboardCtrl'
     }
@@ -43,7 +43,7 @@ angular.module('app.routes', [])
   .state('menu.editprofile', {
   url: '/page_editprofile',
   views: {
-    'menuContent': {
+    'menu': {
       templateUrl: 'templates/editprofile.html',
       controller: 'editprofileCtrl'
     }
@@ -53,7 +53,7 @@ angular.module('app.routes', [])
   .state('menu.transakationsanalyse', {
     url: '/page_transaktionsanalyse',
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/transakationsanalyse.html',
         controller: 'transaktionsanalyseCtrl'
       }
@@ -64,7 +64,7 @@ angular.module('app.routes', [])
     url: '/page_detailed_person/:personName',
 
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/detailedPersonAnalysis.html',
         controller: 'detailedPersonController'
       }
@@ -75,7 +75,7 @@ angular.module('app.routes', [])
     url: '/page_transactionHelp/:help',
 
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/transactionHelp.html'/*,
         controller: 'detailedPersonController'*/
       }
@@ -86,7 +86,7 @@ angular.module('app.routes', [])
     url: '/page_news',
     cache: false,
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/chatMessages.html',
         controller: 'chatCtrl'
       }
@@ -94,7 +94,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu', {
-    url: '/menuContent',
+    url: '/menu',
     cache: false,
     templateUrl: 'templates/menu.html',
     controller: 'menuCtrl'
@@ -103,7 +103,7 @@ angular.module('app.routes', [])
   .state('menu.lPK', {
     url: '/page_lpk',
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/lpk.html',
         controller: 'lPKCtrl'
       }
@@ -132,7 +132,7 @@ angular.module('app.routes', [])
   .state('menu.protocols', {
     url: '/page_protocols',
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/protocols.html',
         controller: 'protocolsCtrl'
       }
@@ -142,7 +142,7 @@ angular.module('app.routes', [])
   .state('menu.addProtocol', {
     url: '/add_protocol',
     views: {
-      'menuContent': {
+      'menu': {
       templateUrl: 'templates/addProtocol.html',
       controller: 'addProtocolCtrl'
       }

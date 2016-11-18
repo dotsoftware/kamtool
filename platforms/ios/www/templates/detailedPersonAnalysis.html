@@ -1,7 +1,7 @@
-<ion-view view-title="Kundenansicht">
+<ion-view view-title="Kundenansicht" name="page_detailed_person">
   <ion-content style="background-color:#eeeeee">
     <div class="card">
-        <div class="item cardHeader">Profil von <strong>{{person}}</strong></div>
+        <div class="item" style="background-color:#779ECB">Profil von <strong>{{person}}</strong></div>
         <div class="item item-body">
             <div>
               <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels">
@@ -12,14 +12,14 @@
     </div>
 
     <div class="card" ng-if="myselfNotSet">
-      <div class="item cardHeader">Keine weiteren Karten verfügbar</div>
+      <div class="item" style="background-color:#779ECB">Keine weiteren Karten verfügbar</div>
       <div class="item item-body">
         Füge dein Profil hinzu, um weitere Informationen zu erhalten.
       </div>
     </div>
 
     <div class="card" ng-if="myselfExists">
-      <div class="item cardHeader">Gegenüberstellung</div>
+      <div class="item" style="background-color:#779ECB">Gegenüberstellung</div>
       <div class="item item-body">
           <div ng-if="myselfExists">
             <canvas id="radar" class="chart chart-radar" chart-colours="['Red', 'Yellow']" auto-legend
@@ -30,7 +30,7 @@
 
 
     <div class="card" ng-if="myselfExists">
-        <div class="item cardHeader">Profil von <strong>mir</strong></div>
+        <div class="item" style="background-color:#779ECB">Profil von <strong>mir</strong></div>
         <div class="item item-body">
             <div ng-if="myselfExists">
               <canvas id="pie" class="chart chart-pie" chart-data="data_self" chart-labels="labels">

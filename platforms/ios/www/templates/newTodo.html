@@ -1,0 +1,23 @@
+<ion-view title="Neue Aufgabe eintragen">
+    <ion-content padding="true" class="has-header">
+
+      <div class="list card">
+          <div class="item item-body">
+            <form class="list">
+                <label class="item item-input">
+                    <input type="text" placeholder="Bezeichnung" ng-model="newTodo.text">
+                </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="Fällig am" ng-model="newTodo.date">
+                </label>
+                <label class="item item-input">
+                    <textarea style="height:100px" placeholder="Notizen (optional)" ng-model="newTodo.notes"></textarea>
+                </label>
+                <div class="spacer" style="width: 279px; height: 28px;"></div>
+                <button ng-click="addTodo()" class="button button-balanced  button-block">Hinzufügen</button>
+            </form>
+          </div>
+      </div>
+
+    </ion-content>
+</ion-view>

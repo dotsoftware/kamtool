@@ -1,42 +1,58 @@
 <ion-view title="Todos">
   <ion-nav-buttons side="right">
-      <button class="button button-icon button-clear ion-plus-round" ng-click="addTask()"></button>
+      <button class="button button-icon button-clear ion-plus-round" ui-sref="menu.newTodo"></button>
   </ion-nav-buttons>
     <ion-content padding="true" class="has-header">
 
-      <form class="list">
-          <label class="item item-input">
-              <input type="text" placeholder="Bezeichnung" ng-model="newTodo.text">
-          </label>
-          <label class="item item-input">
-              <input type="text" placeholder="Fällig am" ng-model="newTodo.date">
-          </label>
-          <div class="spacer" style="width: 279px; height: 28px;"></div>
-          <button ng-click="addTodo()" class="button button-balanced  button-block">Hinzufügen</button>
-      </form>
+      <div class="card list">
+        <ion-list show-delete="false" can-swipe="true">
+            <ion-item class="fadeInLeft-item item-remove-animate" ng-repeat="item in todos" item="item" menu-close="">
+                <div ng-if="item.done">
+                  <del>{{item.todo}}<br/>
+                    {{item.todoDate}}</del>
+                </div>
+                <div ng-if="!item.done">
+                  <strong>{{item.todo}}</strong><br/>
+                  {{item.todoDate}}</del>
+                </div>
 
-      <!--<div class="card list" ng-repeat="todo in todos">
-         <div class="item item-divider">
-            Fällig: {{todo.todoDate}}
-         </div>
+                <div ng-if="item.todoNote.length > 0">
+                  <div  ng-class="isItemShown(item) ? 'item-expand active' : 'item-expand inactive'">
+                    <p style="white-space: normal">{{trim(item.todoNote)}}</p>
+                  </div>
+                  <div ng-click="toggleItem(item)" class="item-expand-footer">
+                    <i ng-class="isItemShown(item) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+                    {{ isGroupShown(item) ? 'Einklappen' : 'Ausklappen' }}
+                  </div>
+                </div>
 
-         <div class="item item-text-wrap">
-            {{todo.todo}}
-         </div>
+                <ion-option-button ng-click="item.done=true;todos.$save(item);" ng-if="!item.done" class="button-light icon ion-checkmark-round" menu-close=""></ion-option-button>
+                <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
+            </ion-item>
+        </ion-list>
+      </div>
 
-         <div class="item item-divider">
-            <button class="button button-clear button-icon button-assertive ion-trash-a" ng-click="deleteTodo(todo)"></button>
-         </div>
-      </div> -->
+    <!-- works
 
-      <ion-list show-delete="false" can-swipe="true">
-          <ion-item href="#" collection-repeat="todo in todos">
-              {{todo.todo}}<br/>
-              {{todo.todoDate}}
-              <ion-option-button class="button-light icon ion-heart"></ion-option-button>
-              <ion-option-button class="button-light icon ion-email"></ion-option-button>
-              <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
-          </ion-item>
-      </ion-list>
+
+      <div class="card list">
+        <ion-list show-delete="false" can-swipe="true">
+            <ion-item class="fadeInLeft-item item-remove-animate" ng-repeat="item in todos" item="item" menu-close="">
+                <div ng-if="item.done">
+                  <del>{{item.todo}}<br/>
+                    {{item.todoDate}}</del>
+                </div>
+                <div ng-if="!item.done">
+                  {{item.todo}}<br/>
+                  {{item.todoDate}}</del>
+                </div>
+                <ion-option-button ng-click="item.done=true;todos.$save(item);" ng-if="!item.done" class="button-light icon ion-checkmark-round" menu-close=""></ion-option-button>
+                <ion-option-button ng-click="todos.$remove(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
+            </ion-item>
+        </ion-list>
+
+    </div>-->
+
+      <div style="text-align:center" ng-if="todos.length < 1">Keine Todos</div>
     </ion-content>
 </ion-view>

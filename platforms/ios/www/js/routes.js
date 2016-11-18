@@ -10,20 +10,52 @@ angular.module('app.routes', [])
 
     .state('menu.todos', {
     url: '/page_todos',
+    cache: false,
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/todos.html',
         controller: 'todosCtrl'
       }
     }
   })
 
+  .state('menu.newTodo', {
+    cache: false,
+    url: '/page_add_todo',
+    views: {
+      'menu': {
+      templateUrl: 'templates/newTodo.html',
+      controller: 'newTodoCtrl'
+    }
+  }
+  })
+
+  .state('menu.dashboard', {
+  url: '/page_dashboard',
+  views: {
+    'menu': {
+      templateUrl: 'templates/dashboard.html',
+      controller: 'dashboardCtrl'
+    }
+    }
+  })
+
+  .state('menu.editprofile', {
+  url: '/page_editprofile',
+  views: {
+    'menu': {
+      templateUrl: 'templates/editprofile.html',
+      controller: 'editprofileCtrl'
+    }
+  }
+})
+
   .state('menu.transakationsanalyse', {
     url: '/page_transaktionsanalyse',
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/transakationsanalyse.html',
-        controller: 'transakationsanalyseCtrl'
+        controller: 'transaktionsanalyseCtrl'
       }
     }
   })
@@ -32,17 +64,29 @@ angular.module('app.routes', [])
     url: '/page_detailed_person/:personName',
 
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/detailedPersonAnalysis.html',
         controller: 'detailedPersonController'
       }
     }
   })
 
+  .state('menu.transactionHelp', {
+    url: '/page_transactionHelp/:help',
+
+    views: {
+      'menu': {
+        templateUrl: 'templates/transactionHelp.html'/*,
+        controller: 'detailedPersonController'*/
+      }
+    }
+  })
+
   .state('menu.chatMessages', {
     url: '/page_news',
+    cache: false,
     views: {
-      'menuContent': {
+      'menu': {
         templateUrl: 'templates/chatMessages.html',
         controller: 'chatCtrl'
       }
@@ -50,7 +94,8 @@ angular.module('app.routes', [])
   })
 
   .state('menu', {
-    url: '/menuContent',
+    url: '/menu',
+    cache: false,
     templateUrl: 'templates/menu.html',
     controller: 'menuCtrl'
   })
@@ -58,8 +103,8 @@ angular.module('app.routes', [])
   .state('menu.lPK', {
     url: '/page_lpk',
     views: {
-      'menuContent': {
-        templateUrl: 'templates/lPK.html',
+      'menu': {
+        templateUrl: 'templates/lpk.html',
         controller: 'lPKCtrl'
       }
     }
@@ -79,24 +124,29 @@ angular.module('app.routes', [])
 
   .state('neuePersonBewerten', {
     url: '/page_add_transaction',
+    cache: false,
     templateUrl: 'templates/neuePersonBewerten.html',
     controller: 'neuePersonBewertenCtrl'
   })
 
-  .state('menu.meineDienststellen', {
-    url: '/page_my_departments',
+  .state('menu.protocols', {
+    url: '/page_protocols',
     views: {
-      'menuContent': {
-        templateUrl: 'templates/meineDienststellen.html',
-        controller: 'meineDienststellenCtrl'
+      'menu': {
+        templateUrl: 'templates/protocols.html',
+        controller: 'protocolsCtrl'
       }
     }
   })
 
-  .state('dienststelleAnlegen', {
-    url: '/page_add_department',
-    templateUrl: 'templates/neueDienststelle.html',
-    controller: 'dienststelleAnlegenCtrl'
+  .state('menu.addProtocol', {
+    url: '/add_protocol',
+    views: {
+      'menu': {
+      templateUrl: 'templates/addProtocol.html',
+      controller: 'addProtocolCtrl'
+      }
+    }
   })
 
   .state('detailedDepartment', {
@@ -105,11 +155,7 @@ angular.module('app.routes', [])
     controller: 'detailedDepartmentCtrl'
   })
 
-  .state('neueAufgabeEintragen', {
-    url: '/page_add_todo',
-    templateUrl: 'templates/neueAufgabeEintragen.html',
-    controller: 'neueAufgabeEintragenCtrl'
-  })
+
 
 $urlRouterProvider.otherwise('/page_login')
 

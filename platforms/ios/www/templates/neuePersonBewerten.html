@@ -5,8 +5,8 @@
   </ion-nav-buttons>
   <ion-content style="background-color:#eeeeee">
 
-    <div class="card">
-      <div class="item cardHeader">
+    <div class="card list">
+      <div class="item card-item" style="background-color:#779ECB">
         Name des Kunden
       </div>
       <div class="item item-input">
@@ -20,7 +20,9 @@
     </div>
 
     <ion-list>
-        <ion-checkbox ng-change="updateItemCount($index)" ng-model="selected[item.schlagwort]" collection-repeat="item in fragen">{{item.schlagwort}}</ion-checkbox>
+      <div class="card list">
+        <ion-checkbox ng-change="updateItemCount($index)" ng-model="selected[item.schlagwort]" ng-repeat="item in fragen">{{item.schlagwort}}</ion-checkbox>
+      </div>
     </ion-list>
     <!--<button class="button button-positive button-block" ng-click="showResult()">Fertig!</button>-->
   </ion-content>

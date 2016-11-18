@@ -1,0 +1,51 @@
+<ion-view title="Startseite">
+  <ion-content padding="true" class="has-header">
+
+
+
+    <div class="list card">
+      <ion-item class="positive">Quick Links</ion-item>
+      <div class="item item-body">
+        <div>
+          <button ui-sref="newTodo" class="button button-balanced  button-block">Neue Aufgabe eintragen</button>
+          <button ui-sref="neuePersonBewerten" class="button button-balanced  button-block">Neue Person analysieren</button>
+          <button ui-sref="menu.chatMessages" class="button button-balanced  button-block">Chatnachricht schreiben</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="list card">
+      <ion-item class="positive">Wetter derzeit: {{forecastHeader}} ({{currentTemperature}}°C)</ion-item>
+      <div class=" item item-image">
+        <img src="img/weather/{{image}}.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+      </div>
+      <div class="item item-body">
+        <div>
+          <p style="margin-top:0px;color:#000000;">{{forecastText}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="list card">
+      <ion-item class="positive">Übersicht</ion-item>
+      <div class="item item-body">
+        <div>
+          <p style="margin-top:0px;color:#000000;">
+            <strong>{{todoCount}}</strong> offene Aufgaben<br/>
+            <strong>{{chatsToday}}</strong> Chatnachrichten heute<br/>
+            <strong>{{personsRated}}</strong> Personen analysiert</p>
+        </div>
+      </div>
+    </div>-->
+    <div class="list card" >
+      <ion-item class="positive">Virales aus dem Internet</ion-item>
+      <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
+        <img src="{{randomImage}}" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+
+        <!--<i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;">{{randomImage}}</i>-->
+      </div>
+      <ion-item class="item-icon-right">"{{picDescription}}"
+      <i class="icon ion-refresh" ng-click="getNewPic()"></i></ion-item>
+    </div>
+  </ion-content>
+</ion-view>

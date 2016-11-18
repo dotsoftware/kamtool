@@ -13,7 +13,7 @@ function ($scope, $stateParams, $http, $firebase, $firebaseObject, $firebaseArra
   var imgurArray;
 
   FBFactory.onLoggedIn().then(function(a) {
-  
+
     // get weather
     $http.jsonp(url)
     .success(function(data){
@@ -725,12 +725,15 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
 
           console.log(data.length);
 
-          $scope.avatars.push({"url" : url});
-
+          $scope.$apply(function() {
+            $scope.avatars.push({"url" : url});
+          });
+          
         });
 
       }
-      $scope.$apply();
+
+
     });
 
   });

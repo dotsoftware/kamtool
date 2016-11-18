@@ -1,40 +1,23 @@
-<ion-view view-title="Kundenprofile">
+<ion-view view-title="Kundenprofile" cache-view="false">
   <ion-nav-buttons side="right">
       <button class="button button-icon button-clear ion-plus-round" ui-sref="neuePersonBewerten"></button>
+      <button class="button button-icon button-clear ion-help" ui-sref="menu.transactionHelp"></button>
+
   </ion-nav-buttons>
 
   <ion-content>
 
-    <!-- anim geht nicht
-    <div class="list animate-fade-slide-in-right">
-      <ion-list class="list animate-fade-slide-in-right">
-      <ion-item href="#/app/detailed/{{item.personName}}" class="item item-content" collection-repeat="item in personen">{{item.personName}}</ion-checkbox>
-        <ion-option-button class="button button-clear button-assertive" ng-click="deleteItem($index)">
-          <i  class="icon ion-trash-a"></i>
-        </ion-option-button>
+    <div class="card list">
+      <ion-list show-delete="false" can-swipe="true">
+          <ion-item ng-click="goTo(item.personName)" ng-if="item.personName != 'ICH'" class="fadeInLeft-item item-remove-animate" ng-repeat="item in customers" item="item">
+            {{item.personName}}
+            <ion-option-button ng-click="deletePerson(item)" class="button-assertive icon ion-trash-a" menu-close=""></ion-option-button>
+          </ion-item>
       </ion-list>
-    </div>-->
-    <!--<ion-list show-delete="shouldShowDelete" class="list animate-fade-slide-in-right">
-        <ion-item href="#/app/detailed/{{item.personName}}" collection-repeat="item in personen">{{item.personName}}</ion-checkbox>
-          <ion-option-button class="button button-clear button-assertive" ng-click="deleteItem($index)">
-            <i  class="icon ion-trash-a"></i>
-          </ion-option-button>
-    </ion-list>-->
-
-    <!--<div class="card list" collection-repeat="item in customers">
-        <div class="item item-divider">
-          <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" collection-repeat="item in customers" class="item item-content">{{item.personName}}</a>
-              <h2>{{item.personName}}</h2>
-              <p>Bewertung aufrufen</p>
-              <i class="icon ion-chatbubble muted"></i>
-          </a>
-        </div>
-      </div>-->
-
-    <div class="list card" >
-      <a href="#/menuContent/page_detailed_person/{{item.personName}}" on-hold="deleteItem($index)" collection-repeat="item in customers" class="item item-content">{{item.personName}}</a>
     </div>
-    <div style="text-align:center" ng-hide="personen.length < 1">Noch keine Bewertungen.</div>
+
+    <p style="text-align:center">Nach links wischen, um zu löschen</p>
+    <div style="text-align:center" ng-hide="customers.length ">Noch keine Bewertungen.</div>
 
   </ion-content>
 </ion-view>
