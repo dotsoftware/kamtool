@@ -36,6 +36,25 @@ angular.module('app.services', ['ngResource'])
 
     },
 
+    addProtocol: function(header, date, content,dep) {
+      var postData = {
+        title: header,
+        date: date,
+        content: content,
+        department: ( dep == null ? "n/a" : dep)
+      };
+
+
+      console.log(userID);
+
+      var newPostKey = firebase.database().ref().child('protocols/' + userID).push().key;
+
+      var updates = {};
+      updates['/protocols/' + userID + '/' + newPostKey] = postData;
+
+      return firebase.database().ref().update(updates);
+    },
+
     addTodo: function(what, when, notes) {
       var postData = {
         //uid: firebase.auth().currentUser.uid,

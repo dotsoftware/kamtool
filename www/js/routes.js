@@ -19,6 +19,17 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('menu.newTodo', {
+    cache: false,
+    url: '/page_add_todo',
+    views: {
+      'menuContent': {
+      templateUrl: 'templates/newTodo.html',
+      controller: 'newTodoCtrl'
+    }
+  }
+  })
+
   .state('menu.dashboard', {
   url: '/page_dashboard',
   views: {
@@ -26,8 +37,8 @@ angular.module('app.routes', [])
       templateUrl: 'templates/dashboard.html',
       controller: 'dashboardCtrl'
     }
-  }
-})
+    }
+  })
 
   .state('menu.editprofile', {
   url: '/page_editprofile',
@@ -118,20 +129,24 @@ angular.module('app.routes', [])
     controller: 'neuePersonBewertenCtrl'
   })
 
-  .state('menu.meineDienststellen', {
-    url: '/page_my_departments',
+  .state('menu.protocols', {
+    url: '/page_protocols',
     views: {
       'menuContent': {
-        templateUrl: 'templates/meineDienststellen.html',
-        controller: 'meineDienststellenCtrl'
+        templateUrl: 'templates/protocols.html',
+        controller: 'protocolsCtrl'
       }
     }
   })
 
-  .state('dienststelleAnlegen', {
-    url: '/page_add_department',
-    templateUrl: 'templates/neueDienststelle.html',
-    controller: 'dienststelleAnlegenCtrl'
+  .state('menu.addProtocol', {
+    url: '/add_protocol',
+    views: {
+      'menuContent': {
+      templateUrl: 'templates/addProtocol.html',
+      controller: 'addProtocolCtrl'
+      }
+    }
   })
 
   .state('detailedDepartment', {
@@ -140,12 +155,7 @@ angular.module('app.routes', [])
     controller: 'detailedDepartmentCtrl'
   })
 
-  .state('newTodo', {
-    cache: false,
-    url: '/page_add_todo',
-    templateUrl: 'templates/newTodo.html',
-    controller: 'newTodoCtrl'
-  })
+
 
 $urlRouterProvider.otherwise('/page_login')
 

@@ -1,0 +1,33 @@
+<ion-view title="Protokolle" style="background-color:#E3E3E3;">
+  <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-plus-round" ui-sref="menu.addProtocol"></button>
+  </ion-nav-buttons>
+
+  <ion-content padding="true" class="has-header">
+    <div ng-repeat="item in protocols">
+      <div class="list card animated pulse item-remove-animate" >
+        <ion-item class="item card-item" style="background-color:#779ECB"><strong>{{item.title}}</strong>
+          <span class="item-note" style="color:#000000">{{item.date}}</span>
+        </ion-item>
+        <div class="item item-body">
+          <div class="show-list-numbers-and-dots">
+            <p style="margin-top:0px;color:#000000;">{{item.content}}</p>
+          </div>
+        </div>
+        <div class="item tabs tabs-secondary tabs-icon-left light-bg">
+          <div class="item tabs tabs-secondary tabs-icon-left tabs-stable">
+            <a class="tab-item white-tab-text" ng-click="getRatings(item)">
+              <i class="icon icon ion-trash-a" ng-click="protocols.$remove(item)"></i>
+            </a>
+            <a class="tab-item white-tab-text" ng-click="share(item)">
+              <i class="icon ion-share"></i>
+            </a>
+          </div>
+       </div>
+      </div>
+    </div>
+
+    <div style="text-align:center" ng-if="protocols.length < 1">Derzeit keine Protokolle</div>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,28 @@
+<ion-view title="Neues Protokoll hinzufügen" cache-view="false">
+    <ion-content padding="true" class="has-header">
+        <div class="list card">
+            <div class="item item-body">
+              <form class="list">
+
+                <label class="item item-input">
+                    <input type="text" placeholder="Datum" ng-model="protocol.date">
+                </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="Beschreibung/Titel" ng-model="protocol.header">
+                </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="Dienststelle (optional)" ng-model="protocol.department">
+                </label>
+                <label class="item item-input">
+                    <textarea style="height:300px" placeholder="Schreibe hier..." ng-model="protocol.content"></textarea>
+                </label>
+
+                  <button ng-click="add()" class="button button-balanced  button-block">Hinzufügen</button>
+              </form>
+
+            </div>
+        </div>
+
+
+    </ion-content>
+</ion-view>

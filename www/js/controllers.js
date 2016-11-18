@@ -13,15 +13,8 @@ function ($scope, $stateParams, $http, $firebase, $firebaseObject, $firebaseArra
   var imgurArray;
 
   FBFactory.onLoggedIn().then(function(a) {
-    var todoCount = FBFactory.readData('todos/');
-    console.log(todoCount);
-    $scope.todoCount = todoCount.length;
-
-    var personsRated = FBFactory.readData('person_analysis/');
-    $scope.personsRated = personsRated.length;
-    console.log(personsRated);
-
-
+  
+    // get weather
     $http.jsonp(url)
     .success(function(data){
       $scope.forecastHeader = data.currently.summary;
@@ -34,6 +27,12 @@ function ($scope, $stateParams, $http, $firebase, $firebaseObject, $firebaseArra
     getHotImage(0);
 
 
+  }).catch(function(error) {
+    console.log(error);
+    if(error=="Login Failed") {
+      alert("Bitte neu anmelden");
+      $state.go("/login");
+    }
   });
 
   $scope.refreshPost = function() {
@@ -44,6 +43,7 @@ function ($scope, $stateParams, $http, $firebase, $firebaseObject, $firebaseArra
   $scope.getNewPic = function() {
     setRandomPic();
   }
+
   function setRandomPic() {
     randomNumber = Math.floor((Math.random() * 59) + 1);
     tempPic = imgurArray[randomNumber].cover;
@@ -58,11 +58,15 @@ function ($scope, $stateParams, $http, $firebase, $firebaseObject, $firebaseArra
       $scope.picDescription = imgurArray[randomNumber].title;
     }
   }
+
   function getHotImage() {
     $http.get(imgURL)
     .success(function(data){
       imgurArray = data.data;
-      setRandomPic();
+
+      console.log(data.status);
+      if(status == 200) setRandomPic();
+      if(status == 401) alert("unauthorized");
     });
   }
 
@@ -130,6 +134,8 @@ function ($scope, $stateParams, $state, FBFactory) {
   var todoNote;
 
   $scope.addTodo = function() {
+
+
     if($scope.newTodo.notes != null) todoNote = $scope.newTodo.notes;
     else todoNote = "";
 
@@ -391,9 +397,7 @@ function ($scope, $stateParams, $ionicFilterBar, FBFactory) {
 
 }])
 
-.controller('neuePersonBewertenCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'transaktionsService', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('neuePersonBewertenCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'transaktionsService', 'FBFactory',
 function ($scope, $stateParams, $state, $ionicPopup, transaktionsService, FBFactory) {
   var KE = 0;
   var VE = 0;
@@ -524,28 +528,46 @@ function ($scope, $stateParams, $state, $ionicPopup, transaktionsService, FBFact
 
 }])
 
-.controller('meineDienststellenCtrl', ['$scope', '$stateParams', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('protocolsCtrl', ['$scope', '$stateParams', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, FBFactory) {
 
   FBFactory.onLoggedIn().then(function() {
 
-    var meineDienststellen = FBFactory.readData('dienststellen/' + FBFactory.getUserID());
+    var protocols = FBFactory.readData('protocols/' + FBFactory.getUserID());
 
-    $scope.dienststellen = meineDienststellen;
+    $scope.protocols = protocols;
+    console.log(protocols);
 
   });
 
 
 }])
 
-.controller('detailedDepartmentCtrl', ['$scope', '$stateParams', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, FBFactory) {
+.controller('addProtocolCtrl', ['$scope', '$stateParams', '$state', 'FBFactory',
 
-}])
+  function($scope, $stateParams, $state, FBFactory) {
+    $scope.protocol = {};
+
+    $scope.add = function() {
+      if($scope.protocol.header.length < 0 || $scope.protocol.content.length < 0 || $scope.protocol.date.length <0 ) {
+        alert("Nicht alle Felder ausgefüllt");
+      }
+      else {
+        FBFactory.addProtocol($scope.protocol.header, $scope.protocol.date, $scope.protocol.content,$scope.protocol.department).then(function(res) {
+
+          // all fine
+
+          $state.go('menu.protocols');
+
+        }).catch(function(error) {
+          alert(error);
+        })
+      }
+    }
+  }
+])
 
 .controller('registerCtrl', ['$scope', '$stateParams', '$state', '$ionicPopup', 'FBFactory', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
@@ -704,9 +726,11 @@ function ($scope, $stateParams, $firebaseArray, $ionicPopup, FBFactory) {
           console.log(data.length);
 
           $scope.avatars.push({"url" : url});
+
         });
 
       }
+      $scope.$apply();
     });
 
   });
